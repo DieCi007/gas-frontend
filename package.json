@@ -21,7 +21,8 @@
     "@angular/router": "~11.1.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.3"
+    "zone.js": "~0.11.3",
+    "g-ui": "git+https://github.com/DieCi007/g-ui"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1101.4",
