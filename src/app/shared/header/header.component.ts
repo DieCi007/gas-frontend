@@ -13,6 +13,11 @@ export class HeaderComponent {
       img: 'assets/ui/navbar/map.svg',
       imgActive: 'assets/ui/navbar/map-active.svg'
     },
+    heatmap: {
+      url: '/heatmap',
+      img: 'assets/ui/navbar/heatmap.svg',
+      imgActive: 'assets/ui/navbar/heatmap-active.svg'
+    },
   };
 
 }

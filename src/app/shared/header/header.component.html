@@ -4,4 +4,9 @@
     <img src="{{home.isActive ? routes.home.imgActive : routes.home.img}}" alt="">
     <div class="route-description">Mappa Distributori</div>
   </div>
+  <div class="route" routerLink="{{routes.heatmap.url}}" routerLinkActive="active"
+       #heatmap="routerLinkActive">
+    <img src="{{heatmap.isActive ? routes.heatmap.imgActive : routes.heatmap.img}}" alt="">
+    <div class="route-description">Heatmap</div>
+  </div>
 </div>

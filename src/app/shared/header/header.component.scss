@@ -7,10 +7,13 @@
   align-items: center;
 
   .route {
+    background: radial-gradient(circle at 50% 50%, #fafafa60, transparent 70%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0 .5rem;
+    cursor: pointer;
 
     img {
       height: 3rem;
@@ -20,11 +23,21 @@
       font-size: 1.3rem;
       font-weight: 500;
       color: $body;
+      letter-spacing: 1px;
+      transition: all 500ms;
     }
+
     &.active {
       .route-description {
+        transition: all 500ms;
         color: $primary;
       }
     }
+  }
+}
+
+@media #{$smartphone} {
+  .container {
+    overflow-x: auto;
   }
 }
