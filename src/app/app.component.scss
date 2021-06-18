@@ -11,3 +11,9 @@
     width: 100%;
   }
 }
+
+@media #{$smartphone} {
+  .app-wrapper {
+    flex-direction: column-reverse;
+  }
+}
