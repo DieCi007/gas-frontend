@@ -1,10 +1,31 @@
 @import "../../theme/variables";
 
 .container {
-  width: 100%;
+  width: 100vw;
   height: 100%;
   display: flex;
   align-items: center;
+  padding: 0 3rem;
+
+  .logo-container {
+    cursor: pointer;
+    padding-right: 3rem;
+    display: flex;
+    align-items: center;
+
+    .name {
+      color: $primary-dark;
+      font-size: 1.8rem;
+      font-weight: 500;
+    }
+
+    img {
+      border-radius: 50%;
+      height: 4rem;
+      width: 4rem;
+      margin-right: 1rem;
+    }
+  }
 
   .route {
     background: radial-gradient(circle at 50% 50%, #fafafa60, transparent 60%);
