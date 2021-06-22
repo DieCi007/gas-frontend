@@ -3,4 +3,5 @@
   <div class="theme-btn-container" [ngClass]="{'sunrise':!isDarkTheme}">
     <app-sunset [raised]="true" [sunset]="isDarkTheme" (sunChange)="onThemeChange()"></app-sunset>
   </div>
+  <app-dialog [(visible)]="showDetailDialog"></app-dialog>
 </div>

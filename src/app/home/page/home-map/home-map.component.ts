@@ -19,6 +19,7 @@ const SELECTED_LAYER = 'selected-layer';
 export class HomeMapComponent implements OnInit {
   map: Map;
   isDarkTheme = true;
+  showDetailDialog = false;
 
   styleChange = new Subject<string>();
 

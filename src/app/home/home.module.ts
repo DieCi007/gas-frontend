@@ -5,15 +5,20 @@ import { HomeMapComponent } from './page/home-map/home-map.component';
 import { RouterModule } from '@angular/router';
 import { HomeRoutingModule } from './home-routing.module';
 import { SunsetComponent } from './component/sunset/sunset.component';
-
+import { DialogComponent } from './component/dialog/dialog.component';
+import { DialogModule } from 'primeng/dialog';
+import { RippleModule } from 'primeng/ripple';
 
 
 @NgModule({
-  declarations: [HomeMainComponent, HomeMapComponent, SunsetComponent],
+  declarations: [HomeMainComponent, HomeMapComponent, SunsetComponent, DialogComponent],
   imports: [
     CommonModule,
     RouterModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    DialogModule,
+    RippleModule
   ]
 })
-export class HomeModule { }
+export class HomeModule {
+}
