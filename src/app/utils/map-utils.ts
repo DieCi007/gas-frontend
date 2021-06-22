@@ -3,7 +3,7 @@ import { LngLatBounds, Map } from 'mapbox-gl';
 export function map(container: string): Map {
   return new Map({
     container,
-    style: 'mapbox://styles/dieci007/ckq44rcoy4h0317p8a5vojnxn',
+    style: 'mapbox://styles/dieci007/ckq44rcoy4h0317p8a5vojnxn?optimize=true',
     center: [12.514018, 41.890565],
     zoom: 5,
     minZoom: 5,

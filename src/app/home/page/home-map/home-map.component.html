@@ -1,1 +1,6 @@
-<div id="map" style="height: 100%; width: 100%"></div>
+<div class="container">
+  <div id="map"></div>
+  <div class="theme-btn-container" [ngClass]="{'sunrise':!isDarkTheme}">
+    <app-sunset [raised]="true" [sunset]="isDarkTheme" (sunChange)="onThemeChange()"></app-sunset>
+  </div>
+</div>

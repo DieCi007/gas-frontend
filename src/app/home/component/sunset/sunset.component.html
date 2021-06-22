@@ -1,0 +1,5 @@
+<div class="button" (click)="onDayChange()" [style]="{'width': width, 'border-radius': borderRadius}"
+     [ngClass]="{'sunset': sunset, 'sunrise': !sunset, 'raised': raised}">
+  <div class="sun" [ngClass]="sunset ? 'sunset' : 'sunrise'"></div>
+  <div class="shadow" [ngClass]="sunset ? 'sunset' : 'sunrise'"></div>
+</div>

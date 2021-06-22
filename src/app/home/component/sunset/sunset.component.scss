@@ -1,0 +1,128 @@
+.button {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  position: absolute;
+
+  &.raised {
+    box-shadow: 0 3px 3px -2px rgba(0, 0, 0, .2),
+    0 3px 4px 0 rgba(0, 0, 0, .14),
+    0 1px 8px 0 rgba(0, 0, 0, .12);
+  }
+
+  &.sunset {
+    background-color: rgb(74, 53, 76);
+    animation-name: sunset-background;
+    animation-duration: 2s;
+  }
+
+  &.sunrise {
+    background-color: rgb(30, 69, 180);
+    animation-name: sunrise-background;
+    animation-duration: 2s;
+  }
+
+  .shadow {
+    height: 300%;
+    width: 100%;
+    background: radial-gradient(circle at 50% 0,
+      rgb(107, 156, 236), transparent 25%), radial-gradient(circle at 50% 100%,
+      rgb(150, 97, 100), transparent 25%);
+
+    &.sunset {
+      background-repeat: no-repeat;
+      animation-duration: 2s;
+      animation-name: sunset-shadow;
+      animation-fill-mode: forwards;
+    }
+
+    &.sunrise {
+      background-repeat: no-repeat;
+      animation-duration: 2s;
+      animation-name: sunrise-shadow;
+      animation-fill-mode: forwards;
+    }
+
+  }
+
+  .sun {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(circle at 50% 50%,
+      rgb(239, 144, 41), transparent 25%), radial-gradient(circle at 50% 50%,
+      rgb(246, 166, 93), transparent 50%);
+
+    &.sunrise {
+      background-repeat: no-repeat;
+      animation-duration: 2s;
+      animation-name: sunrise;
+      animation-fill-mode: forwards;
+    }
+
+    &.sunset {
+      animation-fill-mode: forwards;
+      background-repeat: no-repeat;
+      animation-name: sunset;
+      animation-duration: 2s;
+    }
+  }
+
+}
+
+@keyframes sunrise-shadow {
+  from {
+    background-position-y: -6rem;
+  }
+  to {
+    background-position-y: 0;
+  }
+}
+
+@keyframes sunset-shadow {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: -6rem;
+  }
+}
+
+@keyframes sunrise {
+  from {
+    background-position-y: 20px;
+  }
+  to {
+    background-position-y: -20px;
+  }
+}
+
+@keyframes sunset {
+  from {
+    background-position-y: -20px;
+  }
+  to {
+    background-position-y: 20px;
+  }
+}
+
+@keyframes sunset-background {
+  from {
+    background-color: rgb(30, 69, 180);
+  }
+  to {
+    background-color: rgb(74, 53, 76);
+  }
+}
+
+@keyframes sunrise-background {
+  from {
+    background-color: rgb(74, 53, 76);
+  }
+  to {
+    background-color: rgb(30, 69, 180);
+  }
+}
