@@ -1,3 +1,8 @@
-<p-dialog>
+<p-dialog [visible]="visible" (visibleChange)="visibleChange.emit($event)"
+          [resizable]="resizable" [focusOnShow]="false" [draggable]="draggable"
+          [focusTrap]="false" [blockScroll]="true" [showHeader]="false"
+          [position]="position" [modal]="true" [style]="{'height': height,
+           'width': width, 'border-radius': borderRadius}"
+          [dismissableMask]="true" [contentStyle]="{'border-radius': borderRadius}">
   <ng-content></ng-content>
 </p-dialog>

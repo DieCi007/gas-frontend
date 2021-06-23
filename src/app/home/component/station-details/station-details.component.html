@@ -1,0 +1,33 @@
+<div class="container">
+  <div *ngIf="(stationDetails$ | async) else spinner" [formGroup]="form">
+    <app-input-field label="Di" [form]="form" controlName="owner">
+    </app-input-field>
+    <app-input-field label="Bandiera" [form]="form" controlName="flag">
+    </app-input-field>
+    <app-input-field label="Tipo" [form]="form" controlName="type">
+    </app-input-field>
+    <app-input-field label="Nome" [form]="form" controlName="name">
+    </app-input-field>
+    <app-input-field label="Indirizzo" [form]="form" controlName="address">
+    </app-input-field>
+    <app-input-field label="Comune" [form]="form" controlName="municipality">
+    </app-input-field>
+    <app-input-field label="Provincia" [form]="form" controlName="province">
+    </app-input-field>
+    <ng-container formArrayName="prices">
+      <ng-container *ngFor="let priceGroup of priceGroups">
+        <app-input-field label="Prezzo" [form]="priceGroup" controlName="price">
+        </app-input-field>
+        <app-input-field label="Self Service" [form]="priceGroup" controlName="isSelf">
+        </app-input-field>
+        <app-input-field label="Ultimo Aggiornamento" [form]="priceGroup" controlName="readDate">
+        </app-input-field>
+        <app-input-field label="Tipo Carburante" [form]="priceGroup" controlName="description">
+        </app-input-field>
+      </ng-container>
+    </ng-container>
+  </div>
+  <ng-template #spinner>
+    <app-spinner></app-spinner>
+  </ng-template>
+</div>

@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { GeoJSONSource, Map } from 'mapbox-gl';
 import { map } from '../../../utils/map-utils';
-import { bindNodeCallback, combineLatest, Subject } from 'rxjs';
+import { bindNodeCallback, combineLatest, of, Subject } from 'rxjs';
 import { StationService } from '../../service/station.service';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, tap} from 'rxjs/operators';
 import { StationLocation } from '../../model/station-location';
 
 const ICON = 'icon';
 const ICON_GREEN = 'icon-green';
 const STATIONS_LAYER = 'stations-layer';
 const SELECTED_LAYER = 'selected-layer';
+const dark = 'mapbox://styles/dieci007/ckq44rcoy4h0317p8a5vojnxn?optimize=true';
+const light = 'mapbox://styles/dieci007/ckq5jyzja2cem18qcz9ddfs4t?optimize=true';
 
 @Component({
   selector: 'app-home-map',
@@ -20,6 +22,7 @@ export class HomeMapComponent implements OnInit {
   map: Map;
   isDarkTheme = true;
   showDetailDialog = false;
+  selectedStationId: number;
 
   styleChange = new Subject<string>();
 
@@ -34,10 +37,14 @@ export class HomeMapComponent implements OnInit {
       this.loadStations();
       this.addMapClickListeners();
     });
-    this.loadLocation();
+    // this.loadLocation();
     this.styleChange.pipe(
       debounceTime(1500),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      tap(() => {
+        this.map.removeImage(ICON);
+        this.map.removeImage(ICON_GREEN);
+      })
     ).subscribe(style => {
       this.map.setStyle(style);
       this.loadStations();
@@ -47,19 +54,25 @@ export class HomeMapComponent implements OnInit {
   private loadStations(): void {
     const loadIcon$ = bindNodeCallback(this.map.loadImage.bind(this.map));
     const iconStyle = this.isDarkTheme ? 'white' : 'black';
-    combineLatest([loadIcon$(`../../../assets/ui/map/fuel-${iconStyle}.png`),
-      loadIcon$('../../../assets/ui/map/fuel-green.png')]).subscribe(([icon, green]) => {
-      this.map.addImage(ICON, icon as any);
-      this.map.addImage(ICON_GREEN, green as any);
-      this.service.getAllStations().pipe(
-        tap(stations => {
-          this.addStationsSource(stations);
-          this.addStationsLayer();
-          this.addSelectedSource();
-          this.addSelectedLayer();
-        })
-      ).subscribe();
-    });
+    combineLatest([
+      this.map.hasImage(ICON) ? of(null) : loadIcon$(`../../../assets/ui/map/fuel-${iconStyle}.png`)
+        .pipe(tap(icon => this.map.addImage(ICON, icon as any))),
+      this.map.hasImage(ICON_GREEN) ? of(null) : loadIcon$('../../../assets/ui/map/fuel-green.png')
+        .pipe(tap(green => this.map.addImage(ICON_GREEN, green as any)))])
+      .subscribe(() => {
+        this.getAllStations();
+      });
+  }
+
+  private getAllStations(): void {
+    this.service.getAllStations().pipe(
+      tap(stations => {
+        this.addStationsSource(stations);
+        this.addStationsLayer();
+        this.addSelectedSource();
+        this.addSelectedLayer();
+      })
+    ).subscribe();
   }
 
   private addStationsSource(stations: StationLocation[]): void {
@@ -118,8 +131,6 @@ export class HomeMapComponent implements OnInit {
   }
 
   onThemeChange(): void {
-    const dark = 'mapbox://styles/dieci007/ckq44rcoy4h0317p8a5vojnxn?optimize=true';
-    const light = 'mapbox://styles/dieci007/ckq5jyzja2cem18qcz9ddfs4t?optimize=true';
     this.isDarkTheme = !this.isDarkTheme;
     this.styleChange.next(this.isDarkTheme ? dark : light);
   }
@@ -150,8 +161,8 @@ export class HomeMapComponent implements OnInit {
           properties: null
         });
         this.map.panTo(e.lngLat);
-        const id = station?.id;
-        this.service.getStationById(id).subscribe(r => console.log(r));
+        this.selectedStationId = station?.id;
+        this.showDetailDialog = true;
       }
     });
 

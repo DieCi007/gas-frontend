@@ -1,0 +1,9 @@
+<label class="input-control"
+       [ngClass]="{'mod-error': control.invalid && (control.dirty || control.touched)}">
+  <span>{{label}}</span>
+  <input name="name" [formControl]="control" [formGroup]="form"/>
+  <div></div>
+  <ng-container *ngIf="control.invalid && (control.dirty || control.touched)">
+    <label class="error-label" *ngIf="control.errors?.required">Campo richiesto</label>
+  </ng-container>
+</label>

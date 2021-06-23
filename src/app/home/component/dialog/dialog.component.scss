@@ -1,0 +1,12 @@
+:host ::ng-deep {
+  .p-dialog-content {
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .p-dialog-mask {
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}

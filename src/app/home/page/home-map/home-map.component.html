@@ -3,5 +3,7 @@
   <div class="theme-btn-container" [ngClass]="{'sunrise':!isDarkTheme}">
     <app-sunset [raised]="true" [sunset]="isDarkTheme" (sunChange)="onThemeChange()"></app-sunset>
   </div>
-  <app-dialog [(visible)]="showDetailDialog"></app-dialog>
 </div>
+<app-dialog position="bottom" [(visible)]="showDetailDialog">
+  <app-station-details [stationId]="selectedStationId"></app-station-details>
+</app-dialog>
