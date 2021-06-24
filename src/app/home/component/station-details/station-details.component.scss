@@ -6,4 +6,12 @@
   justify-content: center;
   padding: 1rem;
   overflow: auto;
+
+  .data-container {
+    display: flex;
+
+    .station-info-container, .station-price-container {
+      padding: .5rem;
+    }
+  }
 }

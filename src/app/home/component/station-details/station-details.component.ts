@@ -47,16 +47,16 @@ export class StationDetailsComponent implements OnInit {
 
   private buildForm(details: StationData, prices: StationPrice[]): void {
     this.form = this.fb.group({
-      owner: [details.owner],
-      flag: [details.flag],
-      type: [details.type],
-      name: [details.name],
-      address: [details.address],
-      municipality: [details.municipality],
-      province: [details.province],
+      owner: [{value: details.owner, disabled: true}],
+      flag: [{value: details.flag, disabled: true}],
+      type: [{value: details.type, disabled: true}],
+      name: [{value: details.name, disabled: true}],
+      address: [{value: details.address, disabled: true}],
+      municipality: [{value: details.municipality, disabled: true}],
+      province: [{value: details.province, disabled: true}],
       prices: this.fb.array(prices.map(p => this.fb.group({
         price: [p.price],
-        isSelf: [p.isSelf ? 'Si' : 'No', [Validators.required]],
+        isSelf: [p.isSelf ? 'Si' : 'No'],
         readDate: [p.readDate],
         description: [p.description],
       })))

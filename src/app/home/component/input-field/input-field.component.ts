@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -15,5 +15,6 @@ export class InputFieldComponent {
   get control(): FormControl {
     return this.form?.get(this.controlName) as FormControl;
   }
+
 
 }
