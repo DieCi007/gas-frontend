@@ -14,4 +14,6 @@ export class DialogComponent {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Input() draggable: boolean;
   @Input() position: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  @Input() zIndex = 100;
+  @Input() appendToBody = false;
 }

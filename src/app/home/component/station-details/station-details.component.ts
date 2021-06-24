@@ -4,7 +4,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { StationData } from '../../model/station-data';
 import { StationPrice } from '../../model/station-price';
 import { tap } from 'rxjs/operators';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-station-details',
@@ -27,6 +27,9 @@ export class StationDetailsComponent implements OnInit {
 
   stationDetails$: Observable<[StationData, StationPrice[]]>;
   form: FormGroup;
+  prices: StationPrice[];
+  showErrorDialog = false;
+  errorMessage: string;
 
   constructor(
     private service: StationService,
@@ -41,11 +44,16 @@ export class StationDetailsComponent implements OnInit {
     const data$ = this.service.getStationById(value);
     const price$ = this.service.getStationPrice(value);
     this.stationDetails$ = combineLatest([data$, price$]).pipe(
-      tap(([details, prices]) => this.buildForm(details, prices))
+      tap(([details, prices]) => {
+        if (details && prices) {
+          this.buildForm(details);
+          this.prices = prices;
+        }
+      })
     );
   }
 
-  private buildForm(details: StationData, prices: StationPrice[]): void {
+  private buildForm(details: StationData): void {
     this.form = this.fb.group({
       owner: [{value: details.owner, disabled: true}],
       flag: [{value: details.flag, disabled: true}],
@@ -53,13 +61,7 @@ export class StationDetailsComponent implements OnInit {
       name: [{value: details.name, disabled: true}],
       address: [{value: details.address, disabled: true}],
       municipality: [{value: details.municipality, disabled: true}],
-      province: [{value: details.province, disabled: true}],
-      prices: this.fb.array(prices.map(p => this.fb.group({
-        price: [p.price],
-        isSelf: [p.isSelf ? 'Si' : 'No'],
-        readDate: [p.readDate],
-        description: [p.description],
-      })))
+      province: [{value: details.province, disabled: true}]
     });
   }
 
@@ -91,11 +93,4 @@ export class StationDetailsComponent implements OnInit {
     return this.form.get('province') as FormControl;
   }
 
-  get prices(): FormArray {
-    return this.form.get('prices') as FormArray;
-  }
-
-  get priceGroups(): FormGroup[] {
-    return this.prices.controls as FormGroup[];
-  }
 }

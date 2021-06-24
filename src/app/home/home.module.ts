@@ -12,13 +12,15 @@ import { StationDetailsComponent } from './component/station-details/station-det
 import { InputFieldComponent } from './component/input-field/input-field.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SpinnerComponent } from './component/spinner/spinner.component';
+import { ErrorDialogComponent } from './component/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
     HomeMainComponent, HomeMapComponent,
     SunsetComponent, DialogComponent,
     StationDetailsComponent, InputFieldComponent,
-    SpinnerComponent],
+    SpinnerComponent,
+    ErrorDialogComponent],
   imports: [
     CommonModule,
     RouterModule,

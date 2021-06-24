@@ -1,0 +1,13 @@
+<app-dialog [visible]="visible" (visibleChange)="visibleChange.emit($event)"
+            [zIndex]="1000" [draggable]="true" borderRadius="10px"
+            [appendToBody]="true" width="30rem">
+  <div class="container">
+    <div class="icon-container" [style]="{'width': size, 'height': size}">
+      <div></div>
+      <div></div>
+    </div>
+    <div style="text-align: center">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</app-dialog>

@@ -20,21 +20,15 @@
       </app-input-field>
     </div>
     <div class="station-price-container">
-      <ng-container formArrayName="prices">
-        <ng-container *ngFor="let priceGroup of priceGroups">
-          <app-input-field label="Prezzo" [form]="priceGroup" controlName="price">
-          </app-input-field>
-          <app-input-field label="Self Service" [form]="priceGroup" controlName="isSelf">
-          </app-input-field>
-          <app-input-field label="Ultimo Aggiornamento" [form]="priceGroup" controlName="readDate">
-          </app-input-field>
-          <app-input-field label="Tipo Carburante" [form]="priceGroup" controlName="description">
-          </app-input-field>
-        </ng-container>
-      </ng-container>
+
     </div>
   </div>
   <ng-template #spinner>
     <app-spinner></app-spinner>
   </ng-template>
+  <app-error-dialog [(visible)]="showErrorDialog">
+    <p>Errore del server. Se l'errore persiste
+      <a href="mailto:diegocipa1@gmail.com">contatta</a> l'amministratore
+     indicando l'errore {{errorMessage | json}}</p>
+  </app-error-dialog>
 </div>

@@ -1,8 +1,9 @@
-<p-dialog [visible]="visible" (visibleChange)="visibleChange.emit($event)"
+<p-dialog [visible]="visible" (visibleChange)="visibleChange.emit($event)" [baseZIndex]="zIndex"
           [resizable]="resizable" [focusOnShow]="false" [draggable]="draggable"
           [focusTrap]="false" [blockScroll]="true" [showHeader]="false"
+          [appendTo]="appendToBody && 'body'"
           [position]="position" [modal]="true" [style]="{'height': height,
-           'width': width, 'border-radius': borderRadius}"
-          [dismissableMask]="true" [contentStyle]="{'border-radius': borderRadius}">
+           'width': width, 'border-radius': borderRadius, 'font-family': 'Lato'}"
+          [dismissableMask]="true" [contentStyle]="{'border-radius': borderRadius, 'padding': 0}">
   <ng-content></ng-content>
 </p-dialog>
