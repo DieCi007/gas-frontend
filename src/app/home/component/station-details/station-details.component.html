@@ -1,34 +1,29 @@
 <div class="container">
   <div class="data-container" *ngIf="(stationDetails$ | async) else spinner" [formGroup]="form">
     <div class="station-info-container">
-      <app-input-field label="Di" [form]="form"
-                       controlName="owner">
-      </app-input-field>
-      <app-input-field label="Bandiera" [form]="form" controlName="flag">
-      </app-input-field>
-      <app-input-field label="Tipo" [form]="form" controlName="type">
-      </app-input-field>
-      <app-input-field label="Nome" [form]="form"
-                       controlName="name">
-      </app-input-field>
-      <app-input-field label="Indirizzo" [form]="form"
-                       controlName="address">
-      </app-input-field>
-      <app-input-field label="Comune" [form]="form" controlName="municipality">
-      </app-input-field>
-      <app-input-field label="Provincia" [form]="form" controlName="province">
-      </app-input-field>
+      <g-input-field label="Di" [form]="form"
+                     controlName="owner">
+      </g-input-field>
+      <g-input-field label="Bandiera" [form]="form" controlName="flag">
+      </g-input-field>
+      <g-input-field label="Tipo" [form]="form" controlName="type">
+      </g-input-field>
+      <g-input-field label="Nome" [form]="form"
+                     controlName="name">
+      </g-input-field>
+      <g-input-field label="Indirizzo" [form]="form"
+                     controlName="address">
+      </g-input-field>
+      <g-input-field label="Comune" [form]="form" controlName="municipality">
+      </g-input-field>
+      <g-input-field label="Provincia" [form]="form" controlName="province">
+      </g-input-field>
     </div>
     <div class="station-price-container">
 
     </div>
   </div>
   <ng-template #spinner>
-    <app-spinner></app-spinner>
+    <g-spinner></g-spinner>
   </ng-template>
-  <app-error-dialog [(visible)]="showErrorDialog">
-    <p>Errore del server. Se l'errore persiste
-      <a href="mailto:diegocipa1@gmail.com">contatta</a> l'amministratore
-     indicando l'errore {{errorMessage | json}}</p>
-  </app-error-dialog>
 </div>

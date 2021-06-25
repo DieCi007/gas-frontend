@@ -3,15 +3,13 @@ import { GeoJSONSource, Map } from 'mapbox-gl';
 import { map } from '../../../utils/map-utils';
 import { bindNodeCallback, combineLatest, of, Subject } from 'rxjs';
 import { StationService } from '../../service/station.service';
-import { debounceTime, distinctUntilChanged, tap} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { StationLocation } from '../../model/station-location';
 
 const ICON = 'icon';
 const ICON_GREEN = 'icon-green';
 const STATIONS_LAYER = 'stations-layer';
 const SELECTED_LAYER = 'selected-layer';
-const dark = 'mapbox://styles/dieci007/ckq44rcoy4h0317p8a5vojnxn?optimize=true';
-const light = 'mapbox://styles/dieci007/ckq5jyzja2cem18qcz9ddfs4t?optimize=true';
 
 @Component({
   selector: 'app-home-map',
@@ -24,7 +22,7 @@ export class HomeMapComponent implements OnInit {
   showDetailDialog = false;
   selectedStationId: number;
 
-  styleChange = new Subject<string>();
+  styleChange = new Subject<'dark' | 'light'>();
 
   constructor(
     private service: StationService
@@ -32,23 +30,21 @@ export class HomeMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.map = map('map');
-    this.map.on('load', () => {
-      this.loadStations();
-      this.addMapClickListeners();
-    });
-    // this.loadLocation();
+    this.map = map('map', 'dark');
+    this.map.on('load', this.onMapLoad);
     this.styleChange.pipe(
       debounceTime(1500),
       distinctUntilChanged(),
-      tap(() => {
-        this.map.removeImage(ICON);
-        this.map.removeImage(ICON_GREEN);
-      })
     ).subscribe(style => {
-      this.map.setStyle(style);
-      this.loadStations();
+      this.map = map('map', style);
+      this.map.on('load', this.onMapLoad);
     });
+  }
+
+  onMapLoad = () => {
+    this.loadStations();
+    this.addMapClickListeners();
+    // this.loadLocation();
   }
 
   private loadStations(): void {
@@ -132,7 +128,7 @@ export class HomeMapComponent implements OnInit {
 
   onThemeChange(): void {
     this.isDarkTheme = !this.isDarkTheme;
-    this.styleChange.next(this.isDarkTheme ? dark : light);
+    this.styleChange.next(this.isDarkTheme ? 'dark' : 'light');
   }
 
   private addSelectedLayer(): void {

@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit, Output } from '@angular/core';
 import { StationService } from '../../service/station.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, throwError } from 'rxjs';
 import { StationData } from '../../model/station-data';
 import { StationPrice } from '../../model/station-price';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { DialogService } from '../../../shared/service/dialog.service';
 
 @Component({
   selector: 'app-station-details',
@@ -25,15 +26,15 @@ export class StationDetailsComponent implements OnInit {
     }
   }
 
+  @Output() closeRequested = new EventEmitter<void>();
   stationDetails$: Observable<[StationData, StationPrice[]]>;
   form: FormGroup;
   prices: StationPrice[];
-  showErrorDialog = false;
-  errorMessage: string;
 
   constructor(
     private service: StationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private readonly dialogService: DialogService
   ) {
   }
 
@@ -49,8 +50,12 @@ export class StationDetailsComponent implements OnInit {
           this.buildForm(details);
           this.prices = prices;
         }
-      })
-    );
+      }),
+      catchError(err => {
+        this.dialogService.showErrorDialog();
+        this.closeRequested.emit();
+        return throwError(err);
+      }));
   }
 
   private buildForm(details: StationData): void {
