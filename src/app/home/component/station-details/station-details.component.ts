@@ -6,6 +6,8 @@ import { StationPrice } from '../../model/station-price';
 import { catchError, tap } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DialogService } from '../../../shared/service/dialog.service';
+import { StationLocation } from '../../model/station-location';
+import { ILocation } from '../../page/home-map/home-map.component';
 
 @Component({
   selector: 'app-station-details',
@@ -13,20 +15,21 @@ import { DialogService } from '../../../shared/service/dialog.service';
   styleUrls: ['./station-details.component.scss']
 })
 export class StationDetailsComponent implements OnInit {
-  private _stationId;
+  private _station;
 
-  get stationId(): number {
-    return this._stationId;
+  get station(): StationLocation {
+    return this._station;
   }
 
-  @Input() set stationId(value) {
-    this._stationId = value;
+  @Input() set station(value: StationLocation) {
+    this._station = value;
     if (value) {
-      this.buildObservable(value);
+      this.buildObservable(value.id);
     }
   }
 
   @Output() closeRequested = new EventEmitter<void>();
+  @Input() userLocation: ILocation;
   stationDetails$: Observable<[StationData, StationPrice[]]>;
   form: FormGroup;
   prices: StationPrice[];
@@ -98,4 +101,14 @@ export class StationDetailsComponent implements OnInit {
     return this.form.get('province') as FormControl;
   }
 
+  onDirectionsClick(): void {
+    let redirect;
+    if (this.userLocation) {
+      redirect = `https://www.google.com/maps/dir/?api=1&origin=
+      ${this.userLocation.lat},${this.userLocation.lng}&destination=${this.station.latitude},${this.station.longitude}`;
+    } else {
+      redirect = `https://www.google.com/maps/search/?api=1&query=${this.station.latitude},${this.station.longitude}`;
+    }
+    location.href = redirect;
+  }
 }

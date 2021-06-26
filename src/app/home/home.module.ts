@@ -9,11 +9,14 @@ import { RippleModule } from 'primeng/ripple';
 import { StationDetailsComponent } from './component/station-details/station-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputFieldModule, ModalModule, SpinnerModule, SunsetModule } from 'g-ui';
+import { PriceTableComponent } from './component/price-table/price-table.component';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   declarations: [
     HomeMainComponent, HomeMapComponent,
-    StationDetailsComponent],
+    StationDetailsComponent,
+    PriceTableComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -24,7 +27,8 @@ import { InputFieldModule, ModalModule, SpinnerModule, SunsetModule } from 'g-ui
     ModalModule,
     SpinnerModule,
     SunsetModule,
-    InputFieldModule
+    InputFieldModule,
+    DividerModule
   ]
 })
 export class HomeModule {

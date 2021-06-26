@@ -1,0 +1,16 @@
+<div class="table-container">
+  <table>
+    <tr>
+      <th>Tipo</th>
+      <th>Prezzo</th>
+      <th>Self Service</th>
+      <th>Ultimo Aggiornamento</th>
+    </tr>
+    <tr *ngFor="let price of prices">
+      <td>{{price.description}}</td>
+      <td>{{price.price}}</td>
+      <td>{{price.isSelf ? 'SI' : 'NO'}}</td>
+      <td>{{price.readDate | date: 'dd/MM/yyyy'}}</td>
+    </tr>
+  </table>
+</div>

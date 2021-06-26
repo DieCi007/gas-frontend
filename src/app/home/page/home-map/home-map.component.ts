@@ -11,6 +11,11 @@ const ICON_GREEN = 'icon-green';
 const STATIONS_LAYER = 'stations-layer';
 const SELECTED_LAYER = 'selected-layer';
 
+export interface ILocation {
+  lat: number;
+  lng: number;
+}
+
 @Component({
   selector: 'app-home-map',
   templateUrl: './home-map.component.html',
@@ -20,9 +25,10 @@ export class HomeMapComponent implements OnInit {
   map: Map;
   isDarkTheme = true;
   showDetailDialog = false;
-  selectedStationId: number;
+  selectedStation: StationLocation;
 
   styleChange = new Subject<'dark' | 'light'>();
+  userLocation: ILocation;
 
   constructor(
     private service: StationService
@@ -44,7 +50,7 @@ export class HomeMapComponent implements OnInit {
   onMapLoad = () => {
     this.loadStations();
     this.addMapClickListeners();
-    // this.loadLocation();
+    this.loadLocation();
   }
 
   private loadStations(): void {
@@ -113,10 +119,12 @@ export class HomeMapComponent implements OnInit {
   loadLocation(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        const longitude = position.coords.longitude;
-        const latitude = position.coords.latitude;
+        const lng = position.coords.longitude;
+        const lat = position.coords.latitude;
+        this.userLocation = {lat, lng};
+
         this.map.flyTo({
-          center: [longitude, latitude],
+          center: [lng, lat],
           speed: 0.5,
           zoom: 9
         });
@@ -157,7 +165,7 @@ export class HomeMapComponent implements OnInit {
           properties: null
         });
         this.map.panTo(e.lngLat);
-        this.selectedStationId = station?.id;
+        this.selectedStation = station;
         this.showDetailDialog = true;
       }
     });

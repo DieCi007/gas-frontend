@@ -54,6 +54,10 @@
         color: $primary;
       }
     }
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 

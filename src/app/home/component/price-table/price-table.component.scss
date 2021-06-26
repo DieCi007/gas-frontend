@@ -1,0 +1,36 @@
+@import "../../../theme/variables";
+
+.table-container {
+  border-radius: 5px;
+  overflow: hidden;
+
+  table {
+    border-spacing: 0;
+    overflow-x: auto;
+
+    > tr {
+      color: $black;
+
+      &:nth-child(odd) {
+        background-color: $divider;
+      }
+
+      &:nth-child(1) {
+        background-color: $primary-dark;
+        color: white;
+      }
+
+      > th, td {
+        text-align: center;
+        padding: .2rem .4rem;
+
+      }
+    }
+  }
+}
+
+@media #{$smartphone} {
+  .table-container {
+    font-size: .9rem;
+  }
+}

@@ -4,7 +4,7 @@
     <g-sunset [raised]="true" [sunset]="isDarkTheme" (sunChange)="onThemeChange()"></g-sunset>
   </div>
 </div>
-<g-modal position="bottom" [(visible)]="showDetailDialog" [resizable]="true">
+<g-modal position="bottom" [(visible)]="showDetailDialog" [resizable]="true" maxWidth="90%">
   <app-station-details (closeRequested)="showDetailDialog = false"
-                       [stationId]="selectedStationId"></app-station-details>
+                       [station]="selectedStation" [userLocation]="userLocation"></app-station-details>
 </g-modal>

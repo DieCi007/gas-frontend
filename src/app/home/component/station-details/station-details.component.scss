@@ -1,3 +1,5 @@
+@import "../../../theme/variables";
+
 .container {
   height: 100%;
   width: 100%;
@@ -9,9 +11,50 @@
 
   .data-container {
     display: flex;
+    width: 100%;
+    justify-content: space-around;
 
     .station-info-container, .station-price-container {
       padding: .5rem;
+    }
+
+    .station-price-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+
+      .directions-container {
+        margin-top: 1rem;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 5rem;
+        }
+      }
+    }
+
+    .divider {
+      width: 1px;
+      border: 1px solid $divider;
+    }
+  }
+}
+
+@media #{$tablet-max} {
+  .container {
+    .data-container {
+      flex-direction: column;
+      align-items: center;
+
+      .divider {
+        height: 1px;
+        width: 100%;
+      }
     }
   }
 }

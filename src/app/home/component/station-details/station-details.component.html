@@ -19,8 +19,13 @@
       <g-input-field label="Provincia" [form]="form" controlName="province">
       </g-input-field>
     </div>
+    <div class="divider"></div>
     <div class="station-price-container">
-
+      <app-price-table [prices]="prices"></app-price-table>
+      <div class="directions-container" (click)="onDirectionsClick()">
+        <img src="assets/ui/map/directions.svg" alt="">
+        <p>Direzioni</p>
+      </div>
     </div>
   </div>
   <ng-template #spinner>
