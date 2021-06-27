@@ -1,10 +1,10 @@
 <div class="container">
-  <div id="map"></div>
+  <div id="home-map"></div>
   <div class="theme-btn-container" [ngClass]="{'sunrise':!isDarkTheme}">
     <g-sunset [raised]="true" [sunset]="isDarkTheme" (sunChange)="onThemeChange()"></g-sunset>
   </div>
 </div>
-<g-modal position="bottom" [(visible)]="showDetailDialog" [resizable]="true" maxWidth="90%">
+<g-modal position="bottom" [(visible)]="showDetailDialog" [resizable]="true" maxWidth="90%" [zIndex]="1">
   <app-station-details (closeRequested)="showDetailDialog = false"
                        [station]="selectedStation" [userLocation]="userLocation"></app-station-details>
 </g-modal>

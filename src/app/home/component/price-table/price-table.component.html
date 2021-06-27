@@ -8,7 +8,9 @@
     </tr>
     <tr *ngFor="let price of prices">
       <td>{{price.description}}</td>
-      <td>{{price.price}}</td>
+      <td>{{price.price}} <span *ngIf="price.price < 0.2" style="color: red; cursor: pointer" tooltipZIndex="1001"
+                                [showDelay]="100"
+                                pTooltip="Segnalato come non affidabile">*</span></td>
       <td>{{price.isSelf ? 'SI' : 'NO'}}</td>
       <td>{{price.readDate | date: 'dd/MM/yyyy'}}</td>
     </tr>

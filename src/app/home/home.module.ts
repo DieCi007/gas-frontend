@@ -10,7 +10,7 @@ import { StationDetailsComponent } from './component/station-details/station-det
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputFieldModule, ModalModule, SpinnerModule, SunsetModule } from 'g-ui';
 import { PriceTableComponent } from './component/price-table/price-table.component';
-import { DividerModule } from 'primeng/divider';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { DividerModule } from 'primeng/divider';
     SpinnerModule,
     SunsetModule,
     InputFieldModule,
-    DividerModule
+    TooltipModule
   ]
 })
 export class HomeModule {

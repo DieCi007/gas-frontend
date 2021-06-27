@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { StationLocation } from '../model/station-location';
 import { StationData } from '../model/station-data';
 import { StationPrice } from '../model/station-price';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StationService {
   BASE_URL = environment.api + '/api/v1/gas/station';
+  private stations: StationLocation[] = null;
 
   constructor(
     private http: HttpClient
@@ -19,7 +20,10 @@ export class StationService {
   }
 
   getAllStations(): Observable<StationLocation[]> {
-    return this.http.get<StationLocation[]>(this.BASE_URL);
+    return this.stations ? of(this.stations) :
+           this.http.get<StationLocation[]>(this.BASE_URL).pipe(
+             tap(stations => this.stations = stations)
+           );
   }
 
   getStationById(id: number): Observable<StationData> {

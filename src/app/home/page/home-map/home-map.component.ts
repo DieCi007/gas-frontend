@@ -36,13 +36,13 @@ export class HomeMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.map = map('map', 'dark');
+    this.map = map('home-map', 'dark');
     this.map.on('load', this.onMapLoad);
     this.styleChange.pipe(
       debounceTime(1500),
       distinctUntilChanged(),
     ).subscribe(style => {
-      this.map = map('map', style);
+      this.map = map('home-map', style);
       this.map.on('load', this.onMapLoad);
     });
   }
@@ -51,15 +51,18 @@ export class HomeMapComponent implements OnInit {
     this.loadStations();
     this.addMapClickListeners();
     this.loadLocation();
-  }
+    setTimeout(() => {
+      this.map.resize();
+    }, 500);
+  };
 
   private loadStations(): void {
     const loadIcon$ = bindNodeCallback(this.map.loadImage.bind(this.map));
     const iconStyle = this.isDarkTheme ? 'white' : 'black';
     combineLatest([
-      this.map.hasImage(ICON) ? of(null) : loadIcon$(`../../../assets/ui/map/fuel-${iconStyle}.png`)
+      loadIcon$(`../../../assets/ui/map/fuel-${iconStyle}.png`)
         .pipe(tap(icon => this.map.addImage(ICON, icon as any))),
-      this.map.hasImage(ICON_GREEN) ? of(null) : loadIcon$('../../../assets/ui/map/fuel-green.png')
+      loadIcon$('../../../assets/ui/map/fuel-green.png')
         .pipe(tap(green => this.map.addImage(ICON_GREEN, green as any)))])
       .subscribe(() => {
         this.getAllStations();
@@ -122,10 +125,9 @@ export class HomeMapComponent implements OnInit {
         const lng = position.coords.longitude;
         const lat = position.coords.latitude;
         this.userLocation = {lat, lng};
-
         this.map.flyTo({
+          animate: false,
           center: [lng, lat],
-          speed: 0.5,
           zoom: 9
         });
       });
