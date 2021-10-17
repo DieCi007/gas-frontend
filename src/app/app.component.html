@@ -1,9 +1,16 @@
-<div class="app-wrapper">
-  <g-header color="primary" height="5rem">
+<g-nav #bottomNav sideBarSize="300px" position="bottom">
+  <ng-container sidenav>
     <app-header></app-header>
-  </g-header>
-  <div class="app-content">
-    <router-outlet></router-outlet>
-    <app-dialog></app-dialog>
-  </div>
-</div>
+  </ng-container>
+  <ng-container content>
+    <div class="app-wrapper">
+      <g-header color="primary" height="5rem">
+        <app-header></app-header>
+      </g-header>
+      <div class="app-content" portalHost>
+        <router-outlet></router-outlet>
+      </div>
+      <div [class.inactive]="bottomNav.isSidebarOpen" class="sidebar-toggle" (click)="bottomNav.toggle()"><i class="pi pi-angle-up"></i></div>
+    </div>
+  </ng-container>
+</g-nav>

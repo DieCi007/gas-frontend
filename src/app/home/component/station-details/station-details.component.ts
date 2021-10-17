@@ -5,9 +5,9 @@ import { StationData } from '../../model/station-data';
 import { StationPrice } from '../../model/station-price';
 import { catchError, tap } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DialogService } from '../../../shared/service/dialog.service';
 import { StationLocation } from '../../model/station-location';
 import { ILocation } from '../../page/home-map/home-map.component';
+import { ModalService } from '../../../../../../gas-angular-ui/dist/g-ui';
 
 @Component({
   selector: 'app-station-details',
@@ -37,7 +37,7 @@ export class StationDetailsComponent implements OnInit {
   constructor(
     private service: StationService,
     private fb: FormBuilder,
-    private readonly dialogService: DialogService
+    private readonly modalService: ModalService
   ) {
   }
 
@@ -55,7 +55,7 @@ export class StationDetailsComponent implements OnInit {
         }
       }),
       catchError(err => {
-        this.dialogService.showErrorDialog();
+        this.modalService.handleError(err.error);
         this.closeRequested.emit();
         return throwError(err);
       }));

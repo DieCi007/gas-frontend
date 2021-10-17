@@ -8,9 +8,10 @@ import { DialogModule } from 'primeng/dialog';
 import { RippleModule } from 'primeng/ripple';
 import { StationDetailsComponent } from './component/station-details/station-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { InputFieldModule, ModalModule, SpinnerModule, SunsetModule } from 'g-ui';
+import { InputFieldModule, ModalModule, ModalService, SpinnerModule, SunsetModule } from 'g-ui';
 import { PriceTableComponent } from './component/price-table/price-table.component';
 import { TooltipModule } from 'primeng/tooltip';
+
 
 @NgModule({
   declarations: [
@@ -28,8 +29,9 @@ import { TooltipModule } from 'primeng/tooltip';
     SpinnerModule,
     SunsetModule,
     InputFieldModule,
-    TooltipModule
-  ]
+    TooltipModule,
+  ],
+  providers: []
 })
 export class HomeModule {
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { GeoJSONSource, Map } from 'mapbox-gl';
 import { map } from '../../../utils/map-utils';
-import { bindNodeCallback, combineLatest, of, Subject } from 'rxjs';
+import { bindNodeCallback, combineLatest, Subject, throwError } from 'rxjs';
 import { StationService } from '../../service/station.service';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { StationLocation } from '../../model/station-location';
+import { ModalService } from 'g-ui';
 
 const ICON = 'icon';
 const ICON_GREEN = 'icon-green';
@@ -31,7 +32,8 @@ export class HomeMapComponent implements OnInit {
   userLocation: ILocation;
 
   constructor(
-    private service: StationService
+    private service: StationService,
+    private modalService: ModalService
   ) {
   }
 
@@ -71,6 +73,10 @@ export class HomeMapComponent implements OnInit {
 
   private getAllStations(): void {
     this.service.getAllStations().pipe(
+      catchError(err => {
+        this.modalService.handleError(err.error);
+        return throwError(err);
+      }),
       tap(stations => {
         this.addStationsSource(stations);
         this.addStationsLayer();

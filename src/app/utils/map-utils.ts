@@ -9,9 +9,9 @@ export function map(container: string, style: 'dark' | 'light' | 'satellite'): M
     container,
     style: url,
     center: [12.514018, 41.890565],
-    zoom: 5,
-    minZoom: 5,
-    maxBounds: new LngLatBounds([1.633272, 30.899554], [21.971009, 50.476081]),
+    zoom: 5.5,
+    minZoom: 4,
+    maxBounds: new LngLatBounds([-2.833272, 31.099554], [27.191009, 50.776081]),
   });
 }
 

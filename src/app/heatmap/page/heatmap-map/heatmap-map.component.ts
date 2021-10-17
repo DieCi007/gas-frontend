@@ -64,6 +64,15 @@ export class HeatmapMapComponent implements OnInit {
       type: 'heatmap',
       source: HEAT_LAYER,
       paint: {
+        'heatmap-intensity': {
+          stops: [
+            [6, 1],
+            [7, 2],
+            [8, 3],
+            [8, 4],
+            [11, 6]
+          ]
+        },
         'heatmap-weight': [
           'interpolate',
           ['linear'],
@@ -77,10 +86,10 @@ export class HeatmapMapComponent implements OnInit {
           'interpolate',
           ['linear'],
           ['zoom'],
-          0,
-          2,
-          9,
-          20
+          1,
+          1,
+          10,
+          12
         ]
       }
     });

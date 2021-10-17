@@ -1,4 +1,6 @@
 @import "./app/theme/variables";
+@import "~@angular/cdk/overlay-prebuilt.css";
+
 @font-face {
   font-family: 'Lato';
   src: url("assets/font/Lato-Bold.ttf") format("truetype");
