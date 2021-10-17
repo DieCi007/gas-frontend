@@ -1,6 +1,8 @@
 <g-nav #bottomNav sideBarSize="300px" position="bottom">
   <ng-container sidenav>
-    <app-header></app-header>
+    <div class="bottom-bar-container">
+      <app-header (routeChange)="bottomNav.toggle()"></app-header>
+    </div>
   </ng-container>
   <ng-container content>
     <div class="app-wrapper">
@@ -10,7 +12,10 @@
       <div class="app-content" portalHost>
         <router-outlet></router-outlet>
       </div>
-      <div [class.inactive]="bottomNav.isSidebarOpen" class="sidebar-toggle" (click)="bottomNav.toggle()"><i class="pi pi-angle-up"></i></div>
+      <div [class.inactive]="bottomNav.isSidebarOpen" class="sidebar-toggle" (click)="bottomNav.toggle()"><i
+        class="pi pi-angle-up"></i></div>
+      <div [class.inactive]="bottomNav.isSidebarOpen" class="sidebar-toggle animated" (click)="bottomNav.toggle()"><i
+        class="pi pi-angle-up"></i></div>
     </div>
   </ng-container>
 </g-nav>

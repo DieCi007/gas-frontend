@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StationService } from '../../../home/service/station.service';
 import { Map } from 'mapbox-gl';
 import { map } from '../../../utils/map-utils';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { StationLocation } from '../../../home/model/station-location';
+import { throwError } from 'rxjs';
+import { ModalService } from 'g-ui';
 
 const HEAT_LAYER = 'heat-layer';
 
@@ -16,7 +18,8 @@ export class HeatmapMapComponent implements OnInit {
   map: Map;
 
   constructor(
-    private service: StationService
+    private service: StationService,
+    private modalService: ModalService
   ) {
   }
 
@@ -34,6 +37,10 @@ export class HeatmapMapComponent implements OnInit {
 
   private loadStations(): void {
     this.service.getAllStations().pipe(
+      catchError(err => {
+        this.modalService.handleError(err.error);
+        return throwError(err);
+      }),
       tap(stations => {
         this.addHeatSource(stations);
         this.addHeatLayer();

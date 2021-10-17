@@ -3,17 +3,21 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './component/header/header.component';
 import { RouterModule } from '@angular/router';
 import { ModalModule } from 'g-ui';
+import { SelectInputComponent } from './component/select-input/select-input.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [HeaderComponent],
-  exports: [
-    HeaderComponent,
-  ],
+  declarations: [HeaderComponent, SelectInputComponent],
+    exports: [
+        HeaderComponent,
+        SelectInputComponent,
+    ],
   imports: [
     CommonModule,
     RouterModule,
-    ModalModule
+    ModalModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {

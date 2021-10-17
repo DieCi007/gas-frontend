@@ -1,0 +1,50 @@
+@import "../../../theme/variables";
+
+.page-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 1rem 6rem;
+  position: relative;
+
+  .filters-container {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    > * {
+      padding: 0 1rem;
+    }
+
+    .title {
+      font-weight: 500;
+      font-size: 2rem;
+      letter-spacing: 1.5px;
+      min-width: max-content;
+    }
+  }
+
+  .spinner {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: calc(100% - 12rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(1px);
+  }
+}
+
+@media #{$smartphone} {
+  .page-container {
+    padding: 1rem;
+
+    .spinner {
+      width: calc(100% - 2rem);
+    }
+  }
+}

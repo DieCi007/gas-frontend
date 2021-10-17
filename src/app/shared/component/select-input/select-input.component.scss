@@ -1,0 +1,78 @@
+@import '../../../theme/variables';
+
+.container {
+  position: relative;
+
+  .label {
+    text-transform: uppercase;
+    color: $black;
+  }
+
+  select {
+    min-width: 4rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid $black;
+    color: $gray-input;
+    font-weight: 500;
+    font-family: Lato, Serif;
+    font-size: 1.4rem;
+    cursor: pointer;
+
+    &.normal {
+      font-size: 1.1rem;
+    }
+
+    &:active {
+      border-color: $primary-dark;
+    }
+
+    &:focus-visible {
+      border-color: $primary-dark;
+      outline: none;
+    }
+  }
+
+  .error-border {
+    display: block;
+    width: 0;
+    height: 0;
+    background-color: $danger;
+    transition: width 0.5s;
+  }
+
+  .error-message {
+    display: none;
+    font-size: .9rem;
+    color: $danger;
+    margin-top: 5px;
+    position: absolute;
+  }
+
+  &.mod-error {
+    select {
+      border-bottom: 1px solid $danger;
+    }
+
+    .error-border {
+      width: 100%;
+      height: 3px;
+    }
+
+    .error-message {
+      display: block;
+    }
+  }
+}
+
+@media #{$smartphone} {
+  .container {
+    .label {
+      font-size: .9rem;
+    }
+
+    select, {
+      font-size: 1.1rem;
+    }
+  }
+}

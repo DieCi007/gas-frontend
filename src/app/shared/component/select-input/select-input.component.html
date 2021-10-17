@@ -1,0 +1,12 @@
+<div class="container"
+     [ngClass]="{'mod-error': control?.invalid && (control?.dirty || control?.touched)}">
+  <div class="label">{{label}}</div>
+  <select [style]="{width: width}" [ngClass]="{'normal': font==='normal'}" *ngIf="form" [formGroup]="form"
+          [formControl]="control">
+    <ng-container *ngFor="let val of data">
+      <option [value]="val.value">{{val.label}}</option>
+    </ng-container>
+  </select>
+  <span class="error-border"></span>
+  <span class="error-message" *ngIf="control?.errors?.required">{{requiredFieldMessage}}</span>
+</div>

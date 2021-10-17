@@ -1,5 +1,12 @@
 @import "../app/theme/variables";
 
+.bottom-bar-container {
+  height: 100%;
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+  background-color: $black;
+}
+
 .app-wrapper {
   display: flex;
   flex-direction: column;
@@ -14,23 +21,32 @@
   .app-content {
     flex: 1;
     width: 100%;
+    background: radial-gradient(circle at -19% 160%, rgba(0, 0, 0, 0.25), $body 70%);
   }
 
   .sidebar-toggle {
     position: absolute;
     bottom: 5px;
     display: none;
-    animation: position 5s infinite;
+
+    &.animated {
+      animation: position 5s infinite;
+
+      i {
+        animation: color 5s infinite;
+      }
+    }
+
     transition: all 400ms;
+    padding: 1rem 1rem .2rem 1rem;
 
     &.inactive {
-      transform: translateY(4rem);
+      transform: translateY(5rem);
     }
 
     i {
-      color: white;
+      color: $primary-dark;
       font-size: 3rem;
-      animation: color 5s infinite;
     }
   }
 }
@@ -54,7 +70,7 @@
     bottom: 5px;
   }
   20% {
-    bottom: 10px;
+    bottom: 15px;
   }
   30% {
     bottom: 5px;
@@ -63,7 +79,7 @@
 
 @keyframes color {
   10% {
-    color: white;
+    color: $primary-dark;
   }
   15% {
     color: $success;
@@ -75,6 +91,6 @@
     color: $danger;
   }
   30% {
-    color: white;
+    color: $primary-dark;
   }
 }

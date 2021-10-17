@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
+  @Output() routeChange = new EventEmitter<void>();
   routes = {
     home: {
       url: '/home',
@@ -18,6 +18,14 @@ export class HeaderComponent {
       img: 'assets/ui/navbar/heatmap.svg',
       imgActive: 'assets/ui/navbar/heatmap-active.svg'
     },
+    statistics: {
+      url: '/statistics',
+      img: 'assets/ui/navbar/chart.svg',
+      imgActive: 'assets/ui/navbar/chart-active.svg'
+    },
   };
 
+  onRouteChange(): void {
+    this.routeChange.emit();
+  }
 }

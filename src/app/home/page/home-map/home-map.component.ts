@@ -170,12 +170,21 @@ export class HomeMapComponent implements OnInit {
             type: 'Point',
             coordinates
           },
-          properties: null
+          properties: {
+            station
+          }
         });
         this.map.panTo(e.lngLat);
         this.selectedStation = station;
         this.showDetailDialog = true;
       }
+    });
+
+    this.map.on('click', SELECTED_LAYER, e => {
+      const station = JSON.parse(e.features[0].properties?.station);
+      this.map.panTo(e.lngLat);
+      this.selectedStation = station;
+      this.showDetailDialog = true;
     });
 
     this.map.on('mouseover', STATIONS_LAYER, () => {
