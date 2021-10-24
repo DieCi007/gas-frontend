@@ -5,19 +5,23 @@ import { RouterModule } from '@angular/router';
 import { ModalModule } from 'g-ui';
 import { SelectInputComponent } from './component/select-input/select-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CalendarComponent } from './component/calendar/calendar.component';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
-  declarations: [HeaderComponent, SelectInputComponent],
+  declarations: [HeaderComponent, SelectInputComponent, CalendarComponent],
     exports: [
         HeaderComponent,
         SelectInputComponent,
+        CalendarComponent,
     ],
   imports: [
     CommonModule,
     RouterModule,
     ModalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule
   ]
 })
 export class SharedModule {

@@ -1,13 +1,5 @@
 <div class="page-container">
-  <form class="filters-container">
-    <div class="title">Filtra per:</div>
-    <app-select-input width="6rem" [data]="provinceData" [form]="filterForm"
-                      controlName="province"
-                      label="Provincia"></app-select-input>
-    <app-select-input [data]="municipalityData" [form]="filterForm"
-                      label="Comune" controlName="municipality"></app-select-input>
-  </form>
-  <div class="spinner" *ngIf="loading">
-    <g-spinner></g-spinner>
+  <div class="stats-container">
+    <app-gas-stats></app-gas-stats>
   </div>
 </div>

@@ -1,0 +1,56 @@
+@import '../../../theme/variables';
+
+.container {
+  .label {
+    text-transform: uppercase;
+    color: $black;
+  }
+}
+
+::ng-deep {
+  .p-calendar {
+    width: 10rem;
+    border: none;
+    border-bottom: 1px solid $black;
+
+    .p-inputtext {
+      border: none;
+      background: transparent;
+      font-size: 1.1rem;
+      padding: 0;
+
+      &:enabled:focus {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid $primary-dark;
+        box-shadow: none;
+      }
+
+      &:active {
+        border: none;
+        border-bottom: 1px solid $primary-dark;
+      }
+    }
+
+    .p-button {
+      background: $primary;
+      padding: .25rem;
+    }
+  }
+
+}
+
+@media #{$smartphone} {
+  .container {
+    .label {
+      font-size: .9rem;
+    }
+  }
+  ::ng-deep {
+    .p-calendar {
+      .p-button {
+        padding: .08rem;
+      }
+    }
+  }
+}

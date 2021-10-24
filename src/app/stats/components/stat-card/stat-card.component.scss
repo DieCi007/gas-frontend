@@ -1,0 +1,76 @@
+@import "../../../theme/variables";
+
+.container {
+  background-color: white;
+  min-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 6rem;
+
+  .title {
+    width: 100%;
+    padding: .5rem;
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-align: center;
+    letter-spacing: 1.5px;
+
+    &.primary {
+      background-color: $primary;
+      color: $secondary-dark;
+    }
+
+    &.secondary {
+      color: white;
+      background-color: $secondary;
+    }
+  }
+
+  .location-stat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem;
+    font-size: 1.4rem;
+    letter-spacing: 1.2px;
+    flex: 1;
+  }
+
+  .price-stats {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+    flex: 1;
+
+    .price-stat {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .price-stat-title {
+        font-size: 1.1rem;
+        letter-spacing: 1.5px;
+      }
+
+      .price {
+        font-size: 1.2rem;
+        font-weight: 500;
+
+        &.min {
+          color: $success
+        }
+
+        &.avg {
+          color: $primary-dark
+        }
+
+        &.max {
+          color: $danger
+        }
+      }
+    }
+  }
+}

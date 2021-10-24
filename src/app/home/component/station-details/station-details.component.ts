@@ -7,7 +7,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { StationLocation } from '../../model/station-location';
 import { ILocation } from '../../page/home-map/home-map.component';
-import { ModalService } from '../../../../../../gas-angular-ui/dist/g-ui';
+import { ModalService } from 'g-ui';
 
 @Component({
   selector: 'app-station-details',

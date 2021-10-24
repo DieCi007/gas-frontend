@@ -47,6 +47,10 @@ export class SelectInputComponent<T> implements OnInit {
   get control(): FormControl {
     return this.form?.get(this.controlName) as FormControl;
   }
+
+  onSelectedChange(evt: T): void {
+    this.selected.emit(evt);
+  }
 }
 
 export function selectInputRequired(control: AbstractControl): { [key: string]: boolean } | null {

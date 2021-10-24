@@ -4,47 +4,23 @@
   display: flex;
   height: 100%;
   width: 100%;
-  padding: 1rem 6rem;
-  position: relative;
+  justify-content: center;
+  overflow-y: auto;
+  //background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255) 80%,
+  //  rgba(0, 0, 0, 0.1) 300%);
 
-  .filters-container {
-    width: 100%;
-    height: max-content;
+  .stats-container {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
-
-    > * {
-      padding: 0 1rem;
-    }
-
-    .title {
-      font-weight: 500;
-      font-size: 2rem;
-      letter-spacing: 1.5px;
-      min-width: max-content;
-    }
-  }
-
-  .spinner {
-    position: absolute;
-    top: 0;
     height: 100%;
-    width: calc(100% - 12rem);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(1px);
+    width: 90%;
+    padding: 1rem 0;
   }
 }
 
 @media #{$smartphone} {
   .page-container {
-    padding: 1rem;
-
-    .spinner {
-      width: calc(100% - 2rem);
+    .stats-container {
+      width: 95%;
     }
   }
 }

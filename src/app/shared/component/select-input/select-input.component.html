@@ -1,8 +1,8 @@
 <div class="container"
      [ngClass]="{'mod-error': control?.invalid && (control?.dirty || control?.touched)}">
   <div class="label">{{label}}</div>
-  <select [style]="{width: width}" [ngClass]="{'normal': font==='normal'}" *ngIf="form" [formGroup]="form"
-          [formControl]="control">
+  <select [style]="{width: width}" [ngClass]="{'normal': font==='normal'}" [formGroup]="form"
+          [formControl]="control" (ngModelChange)="onSelectedChange($event)">
     <ng-container *ngFor="let val of data">
       <option [value]="val.value">{{val.label}}</option>
     </ng-container>

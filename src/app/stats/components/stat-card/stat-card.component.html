@@ -1,0 +1,16 @@
+<g-card [containerStyle]="{borderRadius: '10px'}">
+  <div class="container">
+    <div [ngClass]="color === 'primary' ? 'primary':'secondary'" class="title">{{title}}</div>
+    <div class="location-stat" *ngIf="type==='location-stat'">
+      {{locationStat}}
+    </div>
+    <div class="price-stats" *ngIf="type==='price-stat' && priceStats">
+      <ng-container *ngFor="let type of priceStatTypes">
+        <div class="price-stat">
+          <div class="price-stat-title">{{type === 'AVG' ? 'MEDIO' : type}}</div>
+          <div [class]="'price ' + type.toLowerCase()">{{getPrice(type)}}</div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</g-card>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -15,7 +15,11 @@ export class MunicipalityService {
   ) {
   }
 
-  getAllMunicipalities(): Observable<string[]> {
-    return this.http.get<string[]>(environment.api + CONTROLLER_PATH);
+  /**
+   * API restricted to admin
+   */
+  getAllMunicipalities(province: string): Observable<string[]> {
+    const params = new HttpParams().set('province', province);
+    return this.http.get<string[]>(environment.api + CONTROLLER_PATH, {params});
   }
 }

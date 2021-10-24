@@ -1,0 +1,37 @@
+<div class="container">
+  <form class="filters-container">
+    <div class="title">Cronologia statistiche</div>
+    <div class="filter-title">Filtra per:
+      <span
+        class="filter-title-value">{{province.value && province.value !== 'null' ? province.value : 'Tutta Italia'}}</span>
+    </div>
+    <app-select-input width="6rem" [data]="provinceData" [form]="filterForm"
+                      controlName="province"
+                      label="Provincia"></app-select-input>
+    <app-calendar [form]="filterForm"
+                  label="Data" controlName="date"></app-calendar>
+  </form>
+  <div class="stats-container">
+    <app-stat-card *ngIf="appStats?.mostStationsMunicipality" title="Comune con più distributori"
+                   type="location-stat"
+                   [locationStat]="mostStationsMunicipalityLabel" color="primary"></app-stat-card>
+    <app-stat-card *ngIf="appStats?.leastStationsMunicipality" title="Comune con meno distributori"
+                   type="location-stat"
+                   [locationStat]="leastStationsMunicipalityLabel" color="secondary"></app-stat-card>
+    <app-stat-card *ngIf="appStats?.mostStationsProvince" title="Provincia con più distributori"
+                   type="location-stat"
+                   [locationStat]="mostStationsProvinceLabel" color="primary"></app-stat-card>
+    <app-stat-card *ngIf="appStats?.leastStationsProvince" title="Provincia con meno distributori"
+                   type="location-stat"
+                   [locationStat]="leastStationsProvinceLabel" color="secondary"></app-stat-card>
+    <ng-container *ngFor="let fuel of fuelTypes; index as i">
+      <ng-container *ngIf="priceStatsForFuel(fuel) as priceStats">
+        <app-stat-card [title]="fuel" type="price-stat" [priceStats]="priceStats"
+                       [color]="i % 2 === 0 ? 'primary' : 'secondary'"></app-stat-card>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="spinner" *ngIf="loading">
+    <g-spinner></g-spinner>
+  </div>
+</div>
