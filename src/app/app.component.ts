@@ -20,4 +20,8 @@ export class AppComponent implements OnInit {
     (mapboxgl as typeof mapboxgl).accessToken = environment.mapbox.token;
   }
 
+  get height(): string {
+    return window.innerHeight + 'px';
+  }
+
 }

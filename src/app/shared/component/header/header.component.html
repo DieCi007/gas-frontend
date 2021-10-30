@@ -1,7 +1,8 @@
 <div class="container">
   <div class="logo-container" routerLink="/" (click)="onRouteChange()">
-    <img src="../../../../assets/ui/logo.png" alt="">
     <span class="name">Gas Advisor</span>
+    <div class="logo"></div>
+<!--    <img src="../../../../assets/ui/logo-primary.png" alt="">-->
   </div>
   <div (click)="onRouteChange()" class="route" routerLink="{{routes.home.url}}" routerLinkActive="active"
        #home="routerLinkActive">

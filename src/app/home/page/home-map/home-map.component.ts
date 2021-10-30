@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GeoJSONSource, Map } from 'mapbox-gl';
+import { GeoJSONSource, GeolocateControl, Map } from 'mapbox-gl';
 import { map } from '../../../utils/map-utils';
 import { bindNodeCallback, combineLatest, Subject, throwError } from 'rxjs';
 import { StationService } from '../../service/station.service';
@@ -30,6 +30,13 @@ export class HomeMapComponent implements OnInit {
 
   styleChange = new Subject<'dark' | 'light'>();
   userLocation: ILocation;
+  control = new GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    trackUserLocation: true,
+    showUserLocation: true,
+  });
 
   constructor(
     private service: StationService,
@@ -39,6 +46,7 @@ export class HomeMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.map = map('home-map', 'dark');
+    this.map.addControl(this.control, 'bottom-right');
     this.map.on('load', this.onMapLoad);
     this.styleChange.pipe(
       debounceTime(1500),
@@ -126,20 +134,7 @@ export class HomeMapComponent implements OnInit {
   }
 
   loadLocation(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const lng = position.coords.longitude;
-        const lat = position.coords.latitude;
-        this.userLocation = {lat, lng};
-        this.map.flyTo({
-          animate: false,
-          center: [lng, lat],
-          zoom: 9
-        });
-      });
-    } else {
-      console.log('Cannot retrieve device location');
-    }
+    this.control.trigger();
   }
 
   onThemeChange(): void {

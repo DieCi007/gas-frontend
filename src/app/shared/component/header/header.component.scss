@@ -9,21 +9,30 @@
 
   .logo-container {
     cursor: pointer;
-    padding-right: 3rem;
+    margin-right: 3rem;
     display: flex;
     align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 4rem;
 
     .name {
-      color: $primary-dark;
+      color: $secondary;
       font-size: 1.8rem;
       font-weight: 500;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 1rem;
+      background-color: $primary;
     }
 
-    img {
-      border-radius: 50%;
-      height: 4rem;
-      width: 4rem;
-      margin-right: 1rem;
+    .logo {
+      background-image: url("~src/assets/ui/logo-primary.png");
+      background-size: 120%;
+      background-position: center;
+      height: 100%;
+      width: 5rem;
     }
   }
 
@@ -69,10 +78,22 @@
     overflow-y: auto;
 
     .logo-container {
-      width: 100%;
       padding: 0;
       display: flex;
       justify-content: center;
+      margin-right: 0;
+      height: 3rem;
+      flex-basis: 100%;
+
+      .name {
+        border-radius: 10px 0 0 10px;
+      }
+
+      .logo {
+        background-size: 110%;
+        width: 4.4rem;
+        border-radius: 0 10px 10px 0;
+      }
     }
 
     .route {
