@@ -30,6 +30,10 @@
                        [color]="i % 2 === 0 ? 'primary' : 'secondary'"></app-stat-card>
       </ng-container>
     </ng-container>
+    <span class="empty-message" *ngIf="!appStats || (!appStats.mostStationsMunicipality && !appStats.mostStationsProvince &&
+    !appStats.leastStationsProvince && !appStats.leastStationsMunicipality && appStats.priceStats?.length === 0)">
+      Nessun risultato per il filtro applicato
+    </span>
   </div>
   <div class="spinner" *ngIf="loading">
     <g-spinner></g-spinner>

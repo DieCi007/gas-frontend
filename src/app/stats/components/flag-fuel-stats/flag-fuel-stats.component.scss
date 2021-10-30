@@ -1,0 +1,38 @@
+@import "../../../theme/variables";
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    padding-bottom: 1rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+  }
+
+  .stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    > * {
+      padding: 1rem;
+    }
+  }
+
+  .sub {
+    text-align: center;
+
+    sub {
+      padding: 1rem 0;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: normal;
+    }
+  }
+}
+

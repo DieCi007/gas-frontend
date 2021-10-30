@@ -4,13 +4,31 @@
     <div class="location-stat" *ngIf="type==='location-stat'">
       {{locationStat}}
     </div>
-    <div class="price-stats" *ngIf="type==='price-stat' && priceStats">
-      <ng-container *ngFor="let type of priceStatTypes">
-        <div class="price-stat">
-          <div class="price-stat-title">{{type === 'AVG' ? 'MEDIO' : type}}</div>
-          <div [class]="'price ' + type.toLowerCase()">{{getPrice(type)}}</div>
-        </div>
+    <div class="price-stats" *ngIf="type==='price-stat' && (priceStats || flagPriceStats)">
+      <ng-container *ngIf="priceStats else flagStats">
+        <ng-container *ngFor="let type of priceStatTypes">
+          <div class="price-stat">
+            <div class="price-stat-title">{{type === 'AVG' ? 'MEDIO' : type}}</div>
+            <div [class]="'price ' + type.toLowerCase()">{{getPrice(type)}}</div>
+          </div>
+        </ng-container>
       </ng-container>
+      <ng-template #flagStats>
+        <ng-container *ngIf="flagPriceStats">
+          <div class="price-stat" *ngIf="flagPriceStats.cheapestFlag?.flag">
+            <div class="price-stat-title">Più economico</div>
+            <div class="price min">
+              {{flagPriceStats.cheapestFlag.flag}} ({{flagPriceStats.cheapestFlag?.price || '--'}})
+            </div>
+          </div>
+          <div class="price-stat" *ngIf="flagPriceStats.mostExpensiveFlag?.flag">
+            <div class="price-stat-title">Meno economico</div>
+            <div class="price max">
+              {{flagPriceStats.mostExpensiveFlag.flag}} ({{flagPriceStats.mostExpensiveFlag?.price || '--'}})
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
     </div>
   </div>
 </g-card>

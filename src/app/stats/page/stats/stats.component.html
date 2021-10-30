@@ -1,5 +1,19 @@
 <div class="page-container">
   <div class="stats-container">
-    <app-gas-stats></app-gas-stats>
+    <section class="top-section">
+
+      <div class="stats-history">
+        <app-gas-stats></app-gas-stats>
+      </div>
+      <div class="top-section-divider"></div>
+      <div class="price-trend">
+        <app-price-trend></app-price-trend>
+      </div>
+
+    </section>
+    <section class="bottom-section">
+      <div class="bottom-section-divider"></div>
+      <app-flag-fuel-stats></app-flag-fuel-stats>
+    </section>
   </div>
 </div>

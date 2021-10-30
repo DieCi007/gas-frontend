@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="title">Andamento prezzi<sup> *ultimi 30 giorni</sup></div>
+  <form [formGroup]="filterForm" class="filters">
+    <app-select-input [form]="filterForm" controlName="fuelType" label="Carburante"
+                      [hasNull]="false" [data]="fuelOptions"></app-select-input>
+    <app-select-input [form]="filterForm" controlName="statType" label="Tipo Prezzo"
+                      [hasNull]="false" [data]="priceStatOptions"></app-select-input>
+  </form>
+  <div class="chart-container">
+    <canvas height="100%" width="100%" #chart></canvas>
+  </div>
+</div>

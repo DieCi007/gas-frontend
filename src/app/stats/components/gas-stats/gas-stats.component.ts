@@ -10,6 +10,7 @@ import { IAppStatsResponse } from '../../model/IAppStatsResponse';
 import { CommonFuelType } from '../../../shared/model/CommonFuelType';
 import { IPriceStatResponse } from '../../model/IPriceStatResponse';
 import { TitleCasePipe } from '@angular/common';
+import { addDays } from 'date-fns';
 
 @Component({
   selector: 'app-gas-stats',
@@ -23,7 +24,7 @@ export class GasStatsComponent implements OnInit {
   appStats: IAppStatsResponse;
   filterForm = this.fb.group({
     province: [null],
-    date: [new Date()],
+    date: [addDays(new Date(), -1)],
   });
   fuelTypes = Object.values(CommonFuelType).map(t => CommonFuelType[t]);
 
@@ -39,7 +40,11 @@ export class GasStatsComponent implements OnInit {
   ngOnInit(): void {
     this.loadFiltersAndStats();
     this.filterForm.valueChanges.pipe(
-      tap(() => this.loadStats())
+      map(v => v.province === 'null' ? {
+        ...v,
+        province: null
+      } : v),
+      tap(f => this.loadStats(f.province, f.date))
     ).subscribe();
   }
 
@@ -51,7 +56,7 @@ export class GasStatsComponent implements OnInit {
         value: r
       }))),
       tap(res => this.provinceData = res));
-    combineLatest([province$, this.stats$()]).pipe(
+    combineLatest([province$, this.stats$(this.province.value, this.date.value)]).pipe(
       catchError(err => {
         this.loading = false;
         this.modalService.handleError(err.error);
@@ -61,9 +66,9 @@ export class GasStatsComponent implements OnInit {
     ).subscribe();
   }
 
-  loadStats(): void {
+  loadStats(province: string, date: Date): void {
     this.loading = true;
-    this.stats$().pipe(
+    this.stats$(province, date).pipe(
       catchError(err => {
         this.loading = false;
         this.modalService.handleError(err.error);
@@ -73,8 +78,8 @@ export class GasStatsComponent implements OnInit {
     ).subscribe();
   }
 
-  stats$(): Observable<IAppStatsResponse> {
-    return this.priceService.getStats(this.date.value, this.province.value)
+  stats$(province: string, date: Date): Observable<IAppStatsResponse> {
+    return this.priceService.getStats(date, province)
       .pipe(
         tap(r => this.appStats = r)
       );
@@ -89,27 +94,31 @@ export class GasStatsComponent implements OnInit {
   }
 
   get mostStationsMunicipalityLabel(): string {
-    if (!this.appStats?.mostStationsMunicipality) {
-      return '';
+    if (!this.appStats?.mostStationsMunicipality ||
+      !this.appStats?.mostStationsMunicipality.municipality ||
+      !this.appStats?.mostStationsMunicipality.province) {
+      return '--';
     }
     return `${this.titleCase.transform(this.appStats.mostStationsMunicipality
       .municipality)} (${this.appStats.mostStationsMunicipality.province})`;
   }
 
   get leastStationsMunicipalityLabel(): string {
-    if (!this.appStats?.leastStationsMunicipality) {
-      return '';
+    if (!this.appStats?.leastStationsMunicipality ||
+      !this.appStats?.leastStationsMunicipality.municipality ||
+      !this.appStats?.leastStationsMunicipality.province) {
+      return '--';
     }
     return `${this.titleCase.transform(this.appStats.leastStationsMunicipality
       .municipality)} (${this.appStats.leastStationsMunicipality.province})`;
   }
 
   get mostStationsProvinceLabel(): string {
-    return this.appStats?.mostStationsProvince;
+    return this.appStats?.mostStationsProvince || '--';
   }
 
   get leastStationsProvinceLabel(): string {
-    return this.appStats?.leastStationsProvince;
+    return this.appStats?.leastStationsProvince || '--';
   }
 
   priceStatsForFuel(fuel: CommonFuelType): IPriceStatResponse[] {

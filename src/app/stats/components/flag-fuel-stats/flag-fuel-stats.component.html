@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="title">Statistiche per bandiera*</div>
+  <section class="stats-container">
+    <ng-container *ngFor="let stat of stats; index as i">
+      <app-stat-card [color]="i % 2 === 0 ? 'primary' : 'secondary'" [title]="stat.fuelType"
+                     *ngIf="stat.cheapestFlag && stat.mostExpensiveFlag"
+                     type="price-stat" [flagPriceStats]="stat">
+      </app-stat-card>
+    </ng-container>
+  </section>
+  <div class="sub">*<sub>Prezzo medio per bandiera, considerando l'ultimo prezzo per distributore</sub></div>
+</div>

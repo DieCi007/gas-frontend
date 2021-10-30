@@ -6,14 +6,85 @@
   width: 100%;
   justify-content: center;
   overflow-y: auto;
+  overflow-x: hidden;
   //background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255) 80%,
   //  rgba(0, 0, 0, 0.1) 300%);
 
   .stats-container {
     display: flex;
-    height: 100%;
-    width: 90%;
+    flex-direction: column;
+    width: 95%;
     padding: 1rem 0;
+    align-items: center;
+
+    .top-section {
+      width: 100%;
+      min-height: 55%;
+      max-height: max-content;
+      display: flex;
+      align-items: center;
+
+      .stats-history {
+        flex: 1;
+        height: 100%;
+      }
+
+      .top-section-divider {
+        height: 90%;
+        border: 1px solid $secondary-transparent;
+        border-radius: 10px;
+        margin: 0 .5rem;
+      }
+
+      .price-trend {
+        height: 100%;
+        width: 50%;
+      }
+    }
+
+    .bottom-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .bottom-section-divider {
+        width: 90%;
+        border: 1px solid $secondary-transparent;
+        border-radius: 10px;
+        margin: .5rem 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 91rem) {
+  .page-container {
+    .stats-container {
+      width: 85%;
+
+      .top-section {
+        flex-direction: column;
+        min-height: auto;
+
+        .stats-history {
+          height: max-content;
+          width: 100%;
+        }
+
+        .top-section-divider {
+          width: 90%;
+          height: 0;
+          margin: .5rem 0;
+        }
+
+        .price-trend {
+          width: 100%;
+          min-height: 25rem;
+          height: max-content;
+        }
+      }
+    }
   }
 }
 
@@ -21,6 +92,18 @@
   .page-container {
     .stats-container {
       width: 95%;
+
+      .top-section {
+
+        .stats-history {
+        }
+
+        .top-section-divider {
+        }
+
+        .price-trend {
+        }
+      }
     }
   }
 }

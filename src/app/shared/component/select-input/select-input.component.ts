@@ -14,16 +14,14 @@ export interface ISelectInputData<T> {
 export class SelectInputComponent<T> implements OnInit {
   private _data: ISelectInputData<T>[];
   @Input() set data(newData: ISelectInputData<T>[]) {
-    let data = [
-      {
-        label: '-',
-        value: null
-      },
-    ];
-    if (newData) {
-      data = [...data, ...newData];
+    const nullValue = {
+      label: '-',
+      value: null
+    };
+    if (this.hasNull && newData) {
+      newData.unshift(nullValue);
     }
-    this._data = data;
+    this._data = newData;
   }
 
   get data(): ISelectInputData<T>[] {
@@ -37,6 +35,7 @@ export class SelectInputComponent<T> implements OnInit {
   @Input() font: 'normal' | 'large' = 'large';
   @Input() requiredFieldMessage: string;
   @Input() width: string;
+  @Input() hasNull = true;
 
   constructor() {
   }

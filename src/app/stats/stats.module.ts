@@ -9,10 +9,12 @@ import { SharedModule } from '../shared/shared.module';
 import { CardModule, InputFieldModule, SpinnerModule } from 'g-ui';
 import { GasStatsComponent } from './components/gas-stats/gas-stats.component';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
+import { PriceTrendComponent } from './components/price-trend/price-trend.component';
+import { FlagFuelStatsComponent } from './components/flag-fuel-stats/flag-fuel-stats.component';
 
 
 @NgModule({
-  declarations: [MainComponent, StatsComponent, GasStatsComponent, StatCardComponent],
+  declarations: [MainComponent, StatsComponent, GasStatsComponent, StatCardComponent, PriceTrendComponent, FlagFuelStatsComponent],
   imports: [
     CommonModule,
     StatsRoutingModule,
