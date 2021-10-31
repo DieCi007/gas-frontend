@@ -1,0 +1,28 @@
+<div class="container">
+  <i class="close-btn pi pi-times" (click)="onCloseClick()"></i>
+  <section *ngIf="nearestStations" class="nearest-stations-section">
+    <div class="title">Distributori più vicini</div>
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr class="header">
+          <th>Bandiera</th>
+          <th>Di</th>
+          <th>Indirizzo</th>
+          <th>Distanza</th>
+        </tr>
+        </thead>
+        <tr *ngFor="let station of nearestStations" (click)="onRowClick(station)">
+          <td>{{station.flag}}</td>
+          <td>{{station.owner}}</td>
+          <td>{{station.address}}</td>
+          <td>~{{station.distance / 1000}}km</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+  <div class="divider" *ngIf="nearestStations"></div>
+  <section class="filter-stations-section">
+    <div class="title">Filtra distributori</div>
+  </section>
+</div>

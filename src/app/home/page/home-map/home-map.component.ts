@@ -1,35 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GeoJSONSource, GeolocateControl, Map } from 'mapbox-gl';
 import { map } from '../../../utils/map-utils';
-import { bindNodeCallback, combineLatest, Subject, throwError } from 'rxjs';
+import { bindNodeCallback, combineLatest, Subject, Subscription, throwError } from 'rxjs';
 import { StationService } from '../../service/station.service';
 import { catchError, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { StationLocation } from '../../model/station-location';
+import { IStationLocation } from '../../model/IStationLocation';
 import { ModalService } from 'g-ui';
+import { FilterStationsComponent } from '../../component/filter-stations/filter-stations.component';
+import { LS_MAP_THEME } from '../../../utils/constants';
 
 const ICON = 'icon';
 const ICON_GREEN = 'icon-green';
 const STATIONS_LAYER = 'stations-layer';
 const SELECTED_LAYER = 'selected-layer';
 
-export interface ILocation {
-  lat: number;
-  lng: number;
-}
-
 @Component({
   selector: 'app-home-map',
   templateUrl: './home-map.component.html',
   styleUrls: ['./home-map.component.scss']
 })
-export class HomeMapComponent implements OnInit {
+export class HomeMapComponent implements OnInit, OnDestroy {
   map: Map;
-  isDarkTheme = true;
+  savedStyle = localStorage.getItem(LS_MAP_THEME);
+  defaultStyle: 'dark' | 'light' = !this.savedStyle ? 'dark' : this.savedStyle === 'light' ? 'light' : 'dark';
+  isDarkTheme = this.defaultStyle === 'dark';
   showDetailDialog = false;
-  selectedStation: StationLocation;
-
+  selectedStation: IStationLocation;
+  watchLocationId: number;
   styleChange = new Subject<'dark' | 'light'>();
-  userLocation: ILocation;
   control = new GeolocateControl({
     positionOptions: {
       enableHighAccuracy: true,
@@ -37,6 +35,7 @@ export class HomeMapComponent implements OnInit {
     trackUserLocation: true,
     showUserLocation: true,
   });
+  nearestTableClickSubscription: Subscription;
 
   constructor(
     private service: StationService,
@@ -45,14 +44,24 @@ export class HomeMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.map = map('home-map', 'dark');
+    if (navigator.geolocation) {
+      this.watchLocationId = navigator.geolocation.watchPosition(location => {
+        this.service.lastKnownLocation = {
+          lat: location.coords.latitude,
+          lon: location.coords.longitude,
+        };
+      });
+    }
+    this.map = map('home-map', this.defaultStyle);
     this.map.addControl(this.control, 'bottom-right');
     this.map.on('load', this.onMapLoad);
     this.styleChange.pipe(
       debounceTime(1500),
       distinctUntilChanged(),
-    ).subscribe(style => {
-      this.map = map('home-map', style);
+    ).subscribe(s => {
+      localStorage.setItem(LS_MAP_THEME, s);
+      this.map = map('home-map', s);
+      this.map.addControl(this.control, 'bottom-right');
       this.map.on('load', this.onMapLoad);
     });
   }
@@ -94,7 +103,7 @@ export class HomeMapComponent implements OnInit {
     ).subscribe();
   }
 
-  private addStationsSource(stations: StationLocation[]): void {
+  private addStationsSource(stations: IStationLocation[]): void {
     this.map.addSource(STATIONS_LAYER, {
       type: 'geojson',
       data: {
@@ -134,7 +143,11 @@ export class HomeMapComponent implements OnInit {
   }
 
   loadLocation(): void {
-    this.control.trigger();
+    setTimeout(() => {
+      if (this.control) {
+        this.control.trigger();
+      }
+    }, 1000);
   }
 
   onThemeChange(): void {
@@ -158,20 +171,7 @@ export class HomeMapComponent implements OnInit {
     this.map.on('click', STATIONS_LAYER, e => {
       if (e.features[0]) {
         const station = JSON.parse(e.features[0].properties?.station);
-        const coordinates = [station?.longitude, station?.latitude];
-        (this.map.getSource(SELECTED_LAYER) as GeoJSONSource).setData({
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates
-          },
-          properties: {
-            station
-          }
-        });
-        this.map.panTo(e.lngLat);
-        this.selectedStation = station;
-        this.showDetailDialog = true;
+        this.updateSelectedStation(station);
       }
     });
 
@@ -188,5 +188,39 @@ export class HomeMapComponent implements OnInit {
     this.map.on('mouseleave', STATIONS_LAYER, () => {
       this.map.getCanvas().style.cursor = '';
     });
+  }
+
+  updateSelectedStation(station: IStationLocation): void {
+    const coordinates = [station?.longitude, station?.latitude];
+    (this.map.getSource(SELECTED_LAYER) as GeoJSONSource).setData({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates
+      },
+      properties: {
+        station
+      }
+    });
+    this.map.panTo({lat: station?.latitude, lon: station?.longitude});
+    this.selectedStation = station;
+    this.showDetailDialog = true;
+  }
+
+  onSearchClick(): void {
+    const ref = this.modalService.createFromComponent(FilterStationsComponent, {});
+    const component = ref.componentRef;
+    this.nearestTableClickSubscription = component.instance.rowClick.pipe(
+      tap(s => this.updateSelectedStation(s))
+    ).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.clearWatch(this.watchLocationId);
+    }
+    if (this.nearestTableClickSubscription) {
+      this.nearestTableClickSubscription.unsubscribe();
+    }
   }
 }

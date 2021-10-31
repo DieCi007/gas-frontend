@@ -3,7 +3,7 @@ import { StationService } from '../../../home/service/station.service';
 import { Map } from 'mapbox-gl';
 import { map } from '../../../utils/map-utils';
 import { catchError, tap } from 'rxjs/operators';
-import { StationLocation } from '../../../home/model/station-location';
+import { IStationLocation } from '../../../home/model/IStationLocation';
 import { throwError } from 'rxjs';
 import { ModalService } from 'g-ui';
 
@@ -48,7 +48,7 @@ export class HeatmapMapComponent implements OnInit {
     ).subscribe();
   }
 
-  private addHeatSource(stations: StationLocation[]): void {
+  private addHeatSource(stations: IStationLocation[]): void {
     this.map.addSource(HEAT_LAYER, {
       type: 'geojson',
       data: {

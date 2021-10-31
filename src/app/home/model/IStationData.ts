@@ -1,4 +1,4 @@
-export interface StationData {
+export interface IStationData {
   owner: string;
   flag: string;
   type: string;

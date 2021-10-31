@@ -1,4 +1,4 @@
-export interface StationLocation {
+export interface IStationLocation {
   id: number;
   latitude: number;
   longitude: number;

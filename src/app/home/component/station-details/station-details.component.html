@@ -1,4 +1,5 @@
 <div class="container">
+  <i class="pi pi-times close-button" (click)="onClose()"></i>
   <div class="data-container" *ngIf="(stationDetails$ | async) else spinner" [formGroup]="form">
     <div class="station-info-container">
       <g-input-field label="Di" [form]="form"

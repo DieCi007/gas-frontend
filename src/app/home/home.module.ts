@@ -11,13 +11,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InputFieldModule, ModalModule, ModalService, SpinnerModule, SunsetModule } from 'g-ui';
 import { PriceTableComponent } from './component/price-table/price-table.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { FilterStationsComponent } from './component/filter-stations/filter-stations.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [
     HomeMainComponent, HomeMapComponent,
     StationDetailsComponent,
-    PriceTableComponent],
+    PriceTableComponent,
+    FilterStationsComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -30,6 +33,7 @@ import { TooltipModule } from 'primeng/tooltip';
     SunsetModule,
     InputFieldModule,
     TooltipModule,
+    SharedModule,
   ],
   providers: []
 })

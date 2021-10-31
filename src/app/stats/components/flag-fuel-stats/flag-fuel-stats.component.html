@@ -7,6 +7,9 @@
                      type="price-stat" [flagPriceStats]="stat">
       </app-stat-card>
     </ng-container>
+    <div class="spinner" *ngIf="loading">
+      <g-spinner></g-spinner>
+    </div>
   </section>
   <div class="sub">*<sub>Prezzo medio per bandiera, considerando l'ultimo prezzo per distributore</sub></div>
 </div>

@@ -1,12 +1,11 @@
 import { Component, Input, EventEmitter, OnInit, Output } from '@angular/core';
 import { StationService } from '../../service/station.service';
 import { combineLatest, Observable, throwError } from 'rxjs';
-import { StationData } from '../../model/station-data';
-import { StationPrice } from '../../model/station-price';
+import { IStationData } from '../../model/IStationData';
+import { IStationPrice } from '../../model/IStationPrice';
 import { catchError, tap } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { StationLocation } from '../../model/station-location';
-import { ILocation } from '../../page/home-map/home-map.component';
+import { IStationLocation } from '../../model/IStationLocation';
 import { ModalService } from 'g-ui';
 
 @Component({
@@ -17,11 +16,11 @@ import { ModalService } from 'g-ui';
 export class StationDetailsComponent implements OnInit {
   private _station;
 
-  get station(): StationLocation {
+  get station(): IStationLocation {
     return this._station;
   }
 
-  @Input() set station(value: StationLocation) {
+  @Input() set station(value: IStationLocation) {
     this._station = value;
     if (value) {
       this.buildObservable(value.id);
@@ -29,10 +28,9 @@ export class StationDetailsComponent implements OnInit {
   }
 
   @Output() closeRequested = new EventEmitter<void>();
-  @Input() userLocation: ILocation;
-  stationDetails$: Observable<[StationData, StationPrice[]]>;
+  stationDetails$: Observable<[IStationData, IStationPrice[]]>;
   form: FormGroup;
-  prices: StationPrice[];
+  prices: IStationPrice[];
 
   constructor(
     private service: StationService,
@@ -61,7 +59,7 @@ export class StationDetailsComponent implements OnInit {
       }));
   }
 
-  private buildForm(details: StationData): void {
+  private buildForm(details: IStationData): void {
     this.form = this.fb.group({
       owner: [{value: details.owner, disabled: true}],
       flag: [{value: details.flag, disabled: true}],
@@ -103,12 +101,16 @@ export class StationDetailsComponent implements OnInit {
 
   onDirectionsClick(): void {
     let redirect;
-    if (this.userLocation) {
+    if (this.service.lastKnownLocation) {
       redirect = `https://www.google.com/maps/dir/?api=1&origin=
-      ${this.userLocation.lat},${this.userLocation.lng}&destination=${this.station.latitude},${this.station.longitude}`;
+      ${this.service.lastKnownLocation.lat},${this.service.lastKnownLocation.lon}&destination=${this.station.latitude},${this.station.longitude}`;
     } else {
       redirect = `https://www.google.com/maps/search/?api=1&query=${this.station.latitude},${this.station.longitude}`;
     }
     location.href = redirect;
+  }
+
+  onClose(): void {
+    this.closeRequested.emit();
   }
 }

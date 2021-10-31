@@ -4,10 +4,17 @@
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 1rem;
   overflow: auto;
+
+  .close-button {
+    align-self: flex-end;
+    font-size: 1.5rem;
+    display: none;
+  }
 
   .data-container {
     display: flex;
@@ -52,6 +59,10 @@
 
 @media #{$tablet-max} {
   .container {
+    .close-button {
+      display: inline-block;
+    }
+
     .data-container {
       flex-direction: column;
       align-items: center;

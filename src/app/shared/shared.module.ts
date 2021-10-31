@@ -7,14 +7,16 @@ import { SelectInputComponent } from './component/select-input/select-input.comp
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarComponent } from './component/calendar/calendar.component';
 import { CalendarModule } from 'primeng/calendar';
+import { FabComponent } from './component/fab/fab.component';
 
 
 @NgModule({
-  declarations: [HeaderComponent, SelectInputComponent, CalendarComponent],
+  declarations: [HeaderComponent, SelectInputComponent, CalendarComponent, FabComponent],
     exports: [
         HeaderComponent,
         SelectInputComponent,
         CalendarComponent,
+        FabComponent,
     ],
   imports: [
     CommonModule,

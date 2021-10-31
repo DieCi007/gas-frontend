@@ -14,7 +14,24 @@
     position: absolute;
     margin: 1rem;
     top: 0;
-    left: 0;
+    right: 0;
     transition: all 2s linear;
+  }
+
+  .filter-btn-container {
+    position: absolute;
+    margin: 1rem;
+    top: 0;
+    right: 4rem;
+  }
+}
+
+@media #{$smartphone} {
+
+  .container {
+    .filter-btn-container {
+      top: 4rem;
+      right: 0;
+    }
   }
 }

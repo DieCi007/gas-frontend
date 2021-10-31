@@ -1,0 +1,6 @@
+<div class="btn" [style]="{height: size, width: size, backgroundColor:
+  !['primary', 'secondary'].includes(color) && color}"
+     [class.raised]="raised" [class]="{primary: color==='primary',
+     secondary: color==='secondary'}">
+  <i [class]="'pi ' + icon" [style]="{fontSize: iconSize}"></i>
+</div>

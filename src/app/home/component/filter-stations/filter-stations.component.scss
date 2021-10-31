@@ -1,0 +1,60 @@
+@import "../../../theme/variables";
+
+.container {
+  max-height: 80vh;
+  width: 50rem;
+  max-width: 95vw;
+  background-color: $body;
+  padding: .5rem 0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  .close-btn {
+    align-self: flex-end;
+    font-size: 1.5rem;
+    padding-right: .5rem;
+  }
+
+  section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      padding: .5rem 0;
+      font-weight: 500;
+      font-size: 1.5rem;
+      letter-spacing: 1.5px;
+    }
+
+    .table-container {
+      overflow: auto;
+      height: 15rem;
+      width: 99%;
+
+      table {
+        position: relative;
+
+        thead {
+          position: sticky;
+          top: 0;
+        }
+
+        tr:not(:nth-child(1)) {
+          cursor: pointer;
+        }
+      }
+    }
+
+  }
+  .divider {
+    width: 90%;
+    border: 1px solid $secondary-transparent;
+    border-radius: 10px;
+    margin: .5rem 0 ;
+  }
+}
