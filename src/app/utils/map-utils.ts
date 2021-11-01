@@ -15,4 +15,10 @@ export function map(container: string, style: 'dark' | 'light' | 'satellite'): M
   });
 }
 
+export function getStyle(style: 'dark' | 'light'): string {
+  return style === 'dark' ?
+         'mapbox://styles/dieci007/ckq44rcoy4h0317p8a5vojnxn' :
+         'mapbox://styles/dieci007/ckq5jyzja2cem18qcz9ddfs4t';
+}
+
 //    "g-ui": "git+https://github.com/DieCi007/g-ui"

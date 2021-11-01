@@ -1,15 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GeoJSONSource, GeolocateControl, Map } from 'mapbox-gl';
-import { map } from '../../../utils/map-utils';
-import { bindNodeCallback, combineLatest, Subject, Subscription, throwError } from 'rxjs';
+import { getStyle, map } from '../../../utils/map-utils';
+import { bindNodeCallback, combineLatest, Observable, of, Subject, Subscription, throwError } from 'rxjs';
 import { StationService } from '../../service/station.service';
 import { catchError, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { IStationLocation } from '../../model/IStationLocation';
 import { ModalService } from 'g-ui';
-import { FilterStationsComponent } from '../../component/filter-stations/filter-stations.component';
-import { LS_MAP_THEME } from '../../../utils/constants';
+import { FilterStationsComponent, hasTruthyValues } from '../../component/filter-stations/filter-stations.component';
+import { LS_FILTER, LS_MAP_THEME } from '../../../utils/constants';
+import { IFilterStationRequest } from '../../model/IFilterStationRequest';
 
 const ICON = 'icon';
+const ICON_DARK = 'icon_dark';
 const ICON_GREEN = 'icon-green';
 const STATIONS_LAYER = 'stations-layer';
 const SELECTED_LAYER = 'selected-layer';
@@ -36,6 +38,8 @@ export class HomeMapComponent implements OnInit, OnDestroy {
     showUserLocation: true,
   });
   nearestTableClickSubscription: Subscription;
+  filterSubscription: Subscription;
+  private stations: IStationLocation[];
 
   constructor(
     private service: StationService,
@@ -60,11 +64,35 @@ export class HomeMapComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
     ).subscribe(s => {
       localStorage.setItem(LS_MAP_THEME, s);
-      this.map = map('home-map', s);
-      this.map.addControl(this.control, 'bottom-right');
-      this.map.on('load', this.onMapLoad);
+      this.map.setStyle(getStyle(s));
+      this.map.once('styledata', this.onStyleChange);
     });
   }
+
+  onStyleChange = () => {
+    if (this.map.getLayer(STATIONS_LAYER)) {
+      this.map.removeLayer(STATIONS_LAYER);
+    }
+    if (this.map.getLayer(SELECTED_LAYER)) {
+      this.map.removeLayer(SELECTED_LAYER);
+    }
+    if (this.map.getSource(STATIONS_LAYER)) {
+      this.map.removeSource(STATIONS_LAYER);
+    }
+    if (this.map.getSource(SELECTED_LAYER)) {
+      this.map.removeSource(SELECTED_LAYER);
+    }
+    if (this.map.hasImage(ICON)) {
+      this.map.removeImage(ICON);
+    }
+    if (this.map.hasImage(ICON_DARK)) {
+      this.map.removeImage(ICON_DARK);
+    }
+    if (this.map.hasImage(ICON_GREEN)) {
+      this.map.removeImage(ICON_GREEN);
+    }
+    this.loadStations();
+  };
 
   onMapLoad = () => {
     this.loadStations();
@@ -77,10 +105,11 @@ export class HomeMapComponent implements OnInit, OnDestroy {
 
   private loadStations(): void {
     const loadIcon$ = bindNodeCallback(this.map.loadImage.bind(this.map));
-    const iconStyle = this.isDarkTheme ? 'white' : 'black';
     combineLatest([
-      loadIcon$(`../../../assets/ui/map/fuel-${iconStyle}.png`)
+      loadIcon$(`../../../assets/ui/map/fuel-white.png`)
         .pipe(tap(icon => this.map.addImage(ICON, icon as any))),
+      loadIcon$(`../../../assets/ui/map/fuel-black.png`)
+        .pipe(tap(icon => this.map.addImage(ICON_DARK, icon as any))),
       loadIcon$('../../../assets/ui/map/fuel-green.png')
         .pipe(tap(green => this.map.addImage(ICON_GREEN, green as any)))])
       .subscribe(() => {
@@ -89,7 +118,19 @@ export class HomeMapComponent implements OnInit, OnDestroy {
   }
 
   private getAllStations(): void {
-    this.service.getAllStations().pipe(
+    const savedFilter = getSavedFilter();
+    let stations$: Observable<IStationLocation[]>;
+    if (this.stations) {
+      stations$ = of(this.stations);
+    } else if (savedFilter && !savedFilter.province && !savedFilter.municipality &&
+      !savedFilter.fuel && savedFilter.distance && !this.service.lastKnownLocation) {
+      stations$ = this.service.getAllStations();
+    } else if (savedFilter) {
+      stations$ = this.service.filterStations(savedFilter as IFilterStationRequest);
+    } else {
+      stations$ = this.service.getAllStations();
+    }
+    stations$.pipe(
       catchError(err => {
         this.modalService.handleError(err.error);
         return throwError(err);
@@ -122,13 +163,33 @@ export class HomeMapComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateStationsSource(res: IStationLocation[]): void {
+    const source = this.map.getSource(STATIONS_LAYER);
+    if (source) {
+      (source as GeoJSONSource).setData({
+        type: 'FeatureCollection',
+        features: res.map(s => ({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [s.longitude, s.latitude]
+          },
+          properties: {
+            station: s
+          }
+        }))
+      });
+    }
+  }
+
   private addStationsLayer(): void {
+    const icon = this.isDarkTheme ? ICON : ICON_DARK;
     this.map.addLayer({
       id: STATIONS_LAYER,
       type: 'symbol',
       source: STATIONS_LAYER,
       layout: {
-        'icon-image': ICON,
+        'icon-image': icon,
         'icon-allow-overlap': false,
         'icon-size': .8
       }
@@ -142,19 +203,6 @@ export class HomeMapComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadLocation(): void {
-    setTimeout(() => {
-      if (this.control) {
-        this.control.trigger();
-      }
-    }, 1000);
-  }
-
-  onThemeChange(): void {
-    this.isDarkTheme = !this.isDarkTheme;
-    this.styleChange.next(this.isDarkTheme ? 'dark' : 'light');
-  }
-
   private addSelectedLayer(): void {
     this.map.addLayer({
       id: SELECTED_LAYER,
@@ -165,6 +213,19 @@ export class HomeMapComponent implements OnInit, OnDestroy {
         'icon-size': .8
       }
     });
+  }
+
+  loadLocation(): void {
+    setTimeout(() => {
+      if (this.control) {
+        this.control.trigger();
+      }
+    }, 2000);
+  }
+
+  onThemeChange(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+    this.styleChange.next(this.isDarkTheme ? 'dark' : 'light');
   }
 
   private addMapClickListeners(): void {
@@ -208,12 +269,34 @@ export class HomeMapComponent implements OnInit, OnDestroy {
   }
 
   onSearchClick(): void {
-    const ref = this.modalService.createFromComponent(FilterStationsComponent, {});
+    const ref = this.modalService.createFromComponent(FilterStationsComponent, {filter: getSavedFilter()});
     const component = ref.componentRef;
     this.nearestTableClickSubscription = component.instance.rowClick.pipe(
       tap(s => this.updateSelectedStation(s))
     ).subscribe();
+    this.filterSubscription = component.instance.filter.pipe(
+      tap(this.updateStationsFromFilter)
+    ).subscribe();
   }
+
+  updateStationsFromFilter = (filter: IFilterStationRequest) => {
+    let request$: Observable<IStationLocation[]>;
+    if (hasTruthyValues(filter)) {
+      request$ = this.service.filterStations(filter);
+    } else {
+      request$ = this.service.getAllStations();
+    }
+    request$.pipe(
+      catchError(err => {
+        this.modalService.handleError(err.error);
+        return throwError(err);
+      }),
+      tap(res => {
+        this.stations = res;
+        this.updateStationsSource(res);
+      })
+    ).subscribe();
+  };
 
   ngOnDestroy(): void {
     if (navigator.geolocation) {
@@ -222,5 +305,22 @@ export class HomeMapComponent implements OnInit, OnDestroy {
     if (this.nearestTableClickSubscription) {
       this.nearestTableClickSubscription.unsubscribe();
     }
+    if (this.filterSubscription) {
+      this.filterSubscription.unsubscribe();
+    }
   }
+
 }
+
+const getSavedFilter = (): IFilterStationRequest => {
+  try {
+    const savedFilter = JSON.parse(localStorage.getItem(LS_FILTER) || '{}');
+    const hasCorrectFilter = (!!savedFilter.province ||
+      !!savedFilter.fuel || !!savedFilter.distance || !!savedFilter.municipality);
+    return hasCorrectFilter ? savedFilter : null;
+  } catch (err) {
+    localStorage.removeItem(LS_FILTER);
+    console.log('-_-');
+    return null;
+  }
+};

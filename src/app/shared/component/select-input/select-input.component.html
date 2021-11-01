@@ -4,7 +4,7 @@
   <select [style]="{width: width}" [ngClass]="{'normal': font==='normal'}" [formGroup]="form"
           [formControl]="control" (ngModelChange)="onSelectedChange($event)">
     <ng-container *ngFor="let val of data">
-      <option [value]="val.value">{{val.label}}</option>
+      <option [ngValue]="val.value">{{val.label}}</option>
     </ng-container>
   </select>
   <span class="error-border"></span>

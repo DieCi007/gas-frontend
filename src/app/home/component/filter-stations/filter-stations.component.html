@@ -24,5 +24,22 @@
   <div class="divider" *ngIf="nearestStations"></div>
   <section class="filter-stations-section">
     <div class="title">Filtra distributori</div>
+    <form class="filter-form" [formGroup]="filterForm" (submit)="onFormSubmit()">
+      <app-select-input [form]="filterForm" label="Provincia"
+                        controlName="province" [data]="provinceOptions"></app-select-input>
+      <app-select-input [form]="filterForm" label="Comune"
+                        controlName="municipality" [data]="municipalityOptions"></app-select-input>
+      <app-select-input [form]="filterForm" label="Carburante"
+                        controlName="fuel" [data]="fuelOptions"></app-select-input>
+      <app-select-input width="7rem" [form]="filterForm" label="Raggio (in KM)"
+                        controlName="distance" [data]="distanceOptions"></app-select-input>
+      <div class="checkbox-container">
+        <app-checkbox [form]="filterForm" label="Salva filtro"
+                      controlName="remember"></app-checkbox>
+      </div>
+      <div class="button-container">
+        <g-button width="11rem" label="Applica filtro" type="submit"></g-button>
+      </div>
+    </form>
   </section>
 </div>

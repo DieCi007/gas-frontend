@@ -1,0 +1,46 @@
+@import "../../../theme/variables";
+
+.checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  .label {
+    padding-left: .5rem;
+    text-transform: uppercase;
+  }
+
+  input {
+    position: absolute;
+    transform: scale(0);
+
+    &:hover ~ .switch::before {
+      background: $primary-less-transparent;
+    }
+
+    &:checked ~ .switch::before {
+      background: $primary;
+    }
+  }
+
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    border: 1px solid $secondary;
+    border-radius: 5px;
+    position: relative;
+
+    &::before {
+      border-radius: 2px;
+      content: "";
+      position: absolute;
+      height: 80%;
+      width: 80%;
+    }
+  }
+
+}

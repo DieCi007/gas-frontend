@@ -8,7 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { RippleModule } from 'primeng/ripple';
 import { StationDetailsComponent } from './component/station-details/station-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { InputFieldModule, ModalModule, ModalService, SpinnerModule, SunsetModule } from 'g-ui';
+import { ButtonModule, InputFieldModule, ModalModule, ModalService, SpinnerModule, SunsetModule } from 'g-ui';
 import { PriceTableComponent } from './component/price-table/price-table.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { FilterStationsComponent } from './component/filter-stations/filter-stations.component';
@@ -21,20 +21,21 @@ import { SharedModule } from '../shared/shared.module';
     StationDetailsComponent,
     PriceTableComponent,
     FilterStationsComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    HomeRoutingModule,
-    DialogModule,
-    RippleModule,
-    ReactiveFormsModule,
-    ModalModule,
-    SpinnerModule,
-    SunsetModule,
-    InputFieldModule,
-    TooltipModule,
-    SharedModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        HomeRoutingModule,
+        DialogModule,
+        RippleModule,
+        ReactiveFormsModule,
+        ModalModule,
+        SpinnerModule,
+        SunsetModule,
+        InputFieldModule,
+        TooltipModule,
+        SharedModule,
+        ButtonModule,
+    ],
   providers: []
 })
 export class HomeModule {

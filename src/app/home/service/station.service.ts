@@ -8,6 +8,7 @@ import { IStationPrice } from '../model/IStationPrice';
 import { map, tap } from 'rxjs/operators';
 import { INearestStationResponse } from '../model/INearestStationResponse';
 import { ILocation } from '../../shared/model/ILocation';
+import { IFilterStationRequest } from '../model/IFilterStationRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,21 @@ export class StationService {
         distance: s.distance + s.distance / 2
       })))
     );
+  }
+
+  filterStations(request: IFilterStationRequest): Observable<IStationLocation[]> {
+    let params = new HttpParams();
+    Object.keys(request).forEach(v => {
+      const value = request[v];
+      if (value) {
+        params = params.set(v, value);
+      }
+    });
+    if (this.lastKnownLocation) {
+      params = params.set('latitude', String(this.lastKnownLocation.lat))
+        .set('longitude', String(this.lastKnownLocation.lon));
+    }
+    return this.http.get<IStationLocation[]>(`${this.BASE_URL}/filter`, {params});
   }
 
   private serializePrices(prices: IStationPrice[]): IStationPrice[] {
