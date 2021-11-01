@@ -5,8 +5,7 @@ import { StatsRoutingModule } from './stats-routing.module';
 import { MainComponent } from './page/main/main.component';
 import { StatsComponent } from './page/stats/stats.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../shared/shared.module';
-import { CardModule, InputFieldModule, SpinnerModule } from 'g-ui';
+import { CardModule, GCalendarModule, InputFieldModule, SelectInputModule, SpinnerModule } from 'g-ui';
 import { GasStatsComponent } from './components/gas-stats/gas-stats.component';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { PriceTrendComponent } from './components/price-trend/price-trend.component';
@@ -19,10 +18,11 @@ import { FlagFuelStatsComponent } from './components/flag-fuel-stats/flag-fuel-s
     CommonModule,
     StatsRoutingModule,
     ReactiveFormsModule,
-    SharedModule,
     SpinnerModule,
     InputFieldModule,
-    CardModule
+    CardModule,
+    SelectInputModule,
+    GCalendarModule
   ],
   providers: [TitleCasePipe]
 })

@@ -68,6 +68,16 @@
       outline: none;
     }
   }
+
+  .contact {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    a {
+      color: white;
+    }
+  }
 }
 
 @media #{$smartphone} {
@@ -98,6 +108,12 @@
 
     .route {
       padding: .5rem;
+    }
+
+    .contact {
+      flex-basis: 100%;
+      display: flex;
+      justify-content: center;
     }
   }
 }

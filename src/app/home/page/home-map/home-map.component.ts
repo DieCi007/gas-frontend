@@ -9,6 +9,7 @@ import { ModalService } from 'g-ui';
 import { FilterStationsComponent, hasTruthyValues } from '../../component/filter-stations/filter-stations.component';
 import { LS_FILTER, LS_MAP_THEME } from '../../../utils/constants';
 import { IFilterStationRequest } from '../../model/IFilterStationRequest';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 const ICON = 'icon';
 const ICON_DARK = 'icon_dark';
@@ -19,7 +20,11 @@ const SELECTED_LAYER = 'selected-layer';
 @Component({
   selector: 'app-home-map',
   templateUrl: './home-map.component.html',
-  styleUrls: ['./home-map.component.scss']
+  styleUrls: ['./home-map.component.scss'],
+  animations: [
+    fadeInOnEnterAnimation({duration: 1000}),
+    fadeOutOnLeaveAnimation({duration: 300})
+  ]
 })
 export class HomeMapComponent implements OnInit, OnDestroy {
   map: Map;

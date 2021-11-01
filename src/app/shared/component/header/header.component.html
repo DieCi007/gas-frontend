@@ -2,7 +2,7 @@
   <div class="logo-container" routerLink="/" (click)="onRouteChange()">
     <span class="name">Gas Advisor</span>
     <div class="logo"></div>
-<!--    <img src="../../../../assets/ui/logo-primary.png" alt="">-->
+    <!--    <img src="../../../../assets/ui/logo-primary.png" alt="">-->
   </div>
   <div (click)="onRouteChange()" class="route" routerLink="{{routes.home.url}}" routerLinkActive="active"
        #home="routerLinkActive">
@@ -19,4 +19,7 @@
     <img src="{{heatmap.isActive ? routes.heatmap.imgActive : routes.heatmap.img}}" alt="">
     <div class="route-description">Heatmap</div>
   </div>
+  <section class="contact">
+    <a [href]="'mailto:'+ contactMail">Info & Contatti</a>
+  </section>
 </div>

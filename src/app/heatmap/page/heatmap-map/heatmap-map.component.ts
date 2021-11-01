@@ -6,13 +6,18 @@ import { catchError, tap } from 'rxjs/operators';
 import { IStationLocation } from '../../../home/model/IStationLocation';
 import { throwError } from 'rxjs';
 import { ModalService } from 'g-ui';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 const HEAT_LAYER = 'heat-layer';
 
 @Component({
   selector: 'app-heatmap-map',
   templateUrl: './heatmap-map.component.html',
-  styleUrls: ['./heatmap-map.component.scss']
+  styleUrls: ['./heatmap-map.component.scss'],
+  animations: [
+    fadeInOnEnterAnimation({duration: 1000}),
+    fadeOutOnLeaveAnimation({duration: 300})
+  ]
 })
 export class HeatmapMapComponent implements OnInit {
   map: Map;

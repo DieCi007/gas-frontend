@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PortalModule } from '@angular/cdk/portal';
     BrowserAnimationsModule,
     OverlayModule,
     PortalModule,
+    ReactiveFormsModule,
     NavModule
   ],
   bootstrap: [AppComponent]

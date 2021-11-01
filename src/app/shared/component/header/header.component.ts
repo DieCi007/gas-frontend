@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -27,5 +28,9 @@ export class HeaderComponent {
 
   onRouteChange(): void {
     this.routeChange.emit();
+  }
+
+  get contactMail(): string {
+    return environment.contactMail;
   }
 }

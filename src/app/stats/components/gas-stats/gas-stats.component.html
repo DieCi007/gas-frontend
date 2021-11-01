@@ -5,11 +5,11 @@
       <span
         class="filter-title-value">{{province.value && province.value !== 'null' ? province.value : 'Tutta Italia'}}</span>
     </div>
-    <app-select-input width="6rem" [data]="provinceData" [form]="filterForm"
+    <g-select-input width="6rem" [data]="provinceData" [form]="filterForm"
                       controlName="province"
-                      label="Provincia"></app-select-input>
-    <app-calendar [form]="filterForm"
-                  label="Data" controlName="date"></app-calendar>
+                      label="Provincia"></g-select-input>
+    <g-calendar [form]="filterForm"
+                  label="Data" controlName="date"></g-calendar>
   </form>
   <div class="stats-container">
     <app-stat-card *ngIf="appStats?.mostStationsMunicipality" title="Comune con più distributori"

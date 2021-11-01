@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ISelectInputData } from '../../../shared/component/select-input/select-input.component';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { ProvinceService } from '../../service/province.service';
-import { ModalService } from 'g-ui';
+import { ISelectInputData, ModalService } from 'g-ui';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { Observable, throwError, combineLatest } from 'rxjs';
 import { PriceService } from '../../service/price.service';

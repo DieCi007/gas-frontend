@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
-import { IModalInjectionData, MODAL_DATA } from '../../../../../../gas-angular-ui/dist/g-ui';
+import { IModalInjectionData, ISelectInputData, MODAL_DATA } from 'g-ui';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { StationService } from '../../service/station.service';
 import { tap } from 'rxjs/operators';
@@ -7,7 +7,6 @@ import { INearestStationResponse } from '../../model/INearestStationResponse';
 import { ILocation } from '../../../shared/model/ILocation';
 import { IStationLocation } from '../../model/IStationLocation';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ISelectInputData } from '../../../shared/component/select-input/select-input.component';
 import { CommonFuelType } from '../../../shared/model/CommonFuelType';
 import { ProvinceService } from '../../../stats/service/province.service';
 import { MunicipalityService } from '../../../stats/service/municipality.service';
