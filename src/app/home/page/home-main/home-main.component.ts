@@ -13,7 +13,7 @@ export class HomeMainComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.title.setTitle('Gas Advisor | Home')
+    this.title.setTitle('Gas Advisor | Distributori')
   }
 
 }
